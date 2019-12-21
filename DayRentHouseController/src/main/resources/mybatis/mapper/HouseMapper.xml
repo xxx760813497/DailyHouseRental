@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmj.demo.mapper.HouseMapper">
+
+
+    <resultMap id="HouseMap" type="com.xmj.demo.entity.House" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="houseTitleImg" property="houseTitleImg" jdbcType="VARCHAR" />
+        <result column="describe" property="describe" jdbcType="VARCHAR" />
+        <result column="houseImgs" property="houseImgs" jdbcType="VARCHAR" />
+        <result column="equipments" property="equipments" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="INTEGER" />
+        <result column="grade" property="grade" jdbcType="VARCHAR" />
+        <result column="orderQuantity" property="orderQuantity" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="HouseColumnList">
+        id,userId,name,address,houseTitleImg,describe,houseImgs,equipments,price,grade,orderQuantity
+    </sql>
+
+    <select id="getHouseById" parameterType="java.lang.Integer" resultType="com.xmj.demo.entity.House">
+        SELECT
+         <include refid="HouseColumnList"/>
+         FROM t_house WHERE id=#{id}
+    </select>
+
+    <insert id="addHouse" parameterType="com.xmj.demo.entity.House">
+        INSERT INTO
+                t_house (userId,name,address,houseTitleImg,describe,houseImgs,equipments,price,grade,orderQuantity)
+                VALUES
+                (#{userId},#{name},#{address},#{houseTitleImg},
+                 #{describe},#{houseImgs},#{equipments},#{price},
+                 #{grade},#{orderQuantity})
+    </insert>
+    
+
+</mapper>

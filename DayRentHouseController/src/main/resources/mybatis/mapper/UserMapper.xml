@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmj.demo.mapper.UserMapper">
+
+
+    <resultMap id="UserMap" type="com.xmj.demo.entity.User" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="phonenum" property="phonenum" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="UserColumnList">
+        id,phonenum,password,status
+    </sql>
+
+    <select id="getUserById" parameterType="java.lang.Integer" resultType="com.xmj.demo.entity.User">
+        SELECT
+         <include refid="UserColumnList"/>
+         FROM t_user WHERE id=#{id}
+    </select>
+
+    <select id="selectUserPhonenum" parameterType="String" resultType="String">
+        SELECT phonenum FROM t_user WHERE phonenum=#{phonenum}
+    </select>
+
+    <select id="getUserByPhonenumAndPassword" resultMap="UserMap">
+        SELECT
+        <include refid="UserColumnList"/>
+        FROM t_user WHERE phonenum=#{arg0} AND password= #{arg1}
+    </select>
+
+    <insert id="insertNewUser" parameterType="com.xmj.demo.entity.User">
+        INSERT INTO
+                t_user (phonenum,password)
+                VALUES
+                (#{phonenum},#{password})
+    </insert>
+    
+    <update id="updateUserStatus">
+        UPDATE t_user SET status =#{arg1} where id=#{arg0}
+    </update>
+</mapper>
