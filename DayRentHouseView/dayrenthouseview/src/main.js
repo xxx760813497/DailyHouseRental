@@ -7,6 +7,10 @@ import qs from 'qs'
 import 'vant/lib/index.css'
 import '@/assets/css/global.css'
 import BaiduMap from 'vue-baidu-map'
+import Calendar from 'vue-mobile-calendar'
+Vue.use(Calendar);
+
+
 Vue.use(Vant)
 Vue.use(BaiduMap, {
   ak: 'MwYHY5IRaImP4rvu6U19MNrmk77rKT9O'

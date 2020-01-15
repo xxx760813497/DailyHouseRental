@@ -40,7 +40,7 @@
               label="昵称"
               placeholder="请输入昵称"
               v-model="registerForm.nickname"
-            /> -->
+            /> --> 
           </van-cell-group>
         </div>
       </van-col>

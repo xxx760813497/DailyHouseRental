@@ -2,11 +2,10 @@ package com.xmj.demo.entity;
 
 public class House {
 
-    //ak MwYHY5IRaImP4rvu6U19MNrmk77rKT9O
-
     private Integer id;
     private Integer userId;
     private String name;
+    private String location;
     private String address;
     private String houseTitleImg;
     private String describe;
@@ -15,6 +14,57 @@ public class House {
     private String grade;
     private Integer orderQuantity;
     private String  equipments;
+    private String  houseState;
+    private String addDate;
+    private String date;
+    private double distance;
+
+    public String getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(String addDate) {
+        this.addDate = addDate;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getHouseState() {
+        return houseState;
+    }
+
+    public void setHouseState(String houseState) {
+        this.houseState = houseState;
+    }
+
+    public House() {
+    }
+
+    public House(Integer userId, String name, String location,String address, String houseTitleImg, String describe, String houseImgs, Integer price, String equipments) {
+        this.userId = userId;
+        this.name = name;
+        this.location = location;
+        this.address = address;
+        this.houseTitleImg = houseTitleImg;
+        this.describe = describe;
+        this.houseImgs = houseImgs;
+        this.price = price;
+        this.equipments = equipments;
+    }
 
     @Override
     public String toString() {
@@ -31,6 +81,16 @@ public class House {
                 ", orderQuantity=" + orderQuantity +
                 ", equipments='" + equipments + '\'' +
                 '}';
+    }
+
+
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Integer getUserId() {

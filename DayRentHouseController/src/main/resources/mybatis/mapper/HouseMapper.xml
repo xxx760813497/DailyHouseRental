@@ -9,6 +9,7 @@
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="userId" property="userId" jdbcType="INTEGER" />
         <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="location" property="location" jdbcType="VARCHAR" />
         <result column="address" property="address" jdbcType="VARCHAR" />
         <result column="houseTitleImg" property="houseTitleImg" jdbcType="VARCHAR" />
         <result column="describe" property="describe" jdbcType="VARCHAR" />
@@ -17,10 +18,13 @@
         <result column="price" property="price" jdbcType="INTEGER" />
         <result column="grade" property="grade" jdbcType="VARCHAR" />
         <result column="orderQuantity" property="orderQuantity" jdbcType="INTEGER" />
+        <result column="houseState" property="houseState" jdbcType="INTEGER" />
     </resultMap>
+    
+
 
     <sql id="HouseColumnList">
-        id,userId,name,address,houseTitleImg,describe,houseImgs,equipments,price,grade,orderQuantity
+        id,userId,`name`,location,address,houseTitleImg,`describe`,houseImgs,equipments,price,grade,orderQuantity,houseState,date
     </sql>
 
     <select id="getHouseById" parameterType="java.lang.Integer" resultType="com.xmj.demo.entity.House">
@@ -31,12 +35,43 @@
 
     <insert id="addHouse" parameterType="com.xmj.demo.entity.House">
         INSERT INTO
-                t_house (userId,name,address,houseTitleImg,describe,houseImgs,equipments,price,grade,orderQuantity)
+                t_house (userId,`name`,location,address,houseTitleImg,`describe`,houseImgs,equipments,price,houseState,addDate)
                 VALUES
-                (#{userId},#{name},#{address},#{houseTitleImg},
-                 #{describe},#{houseImgs},#{equipments},#{price},
-                 #{grade},#{orderQuantity})
+                (#{userId},#{name},#{location},#{address},#{houseTitleImg},
+                 #{describe},#{houseImgs},#{equipments},#{price},#{houseState},#{addDate})
     </insert>
+
+    <select id="getHousesByUserId" parameterType="java.lang.Integer" resultMap="HouseMap">
+        SELECT
+        <include refid="HouseColumnList"/>
+        FROM t_house WHERE userId=#{userId}
+    </select>
+
+    <update id="updateHouseById">
+        update t_house set `name`= #{arg1},`describe`=#{arg2},price=#{arg3},equipments=#{arg4} where id=#{arg0}
+    </update>
+    
+    <select id="getReviewingHouses" resultMap="HouseMap">
+        SELECT
+        <include refid="HouseColumnList"/>
+        FROM t_house WHERE houseState="审核中"
+    </select>
+
+    <update id="updateHouseStateById">
+        UPDATE t_house set houseState=#{arg1} where id=#{arg0}
+    </update>
+
+    <update id="updateReapplyHouseById">
+        update t_house set `name`= #{arg1},`describe`=#{arg2},price=#{arg3},equipments=#{arg4},houseState="审核中" where id=#{arg0}
+    </update>
+    
+    <delete id="deleteHouseById" parameterType="java.lang.Integer">
+        delete from t_house where id=#{id}
+    </delete>
+    
+    <select id="getHouseIdAndAddress" resultType="com.xmj.demo.unitilEmitity.HouseInfo">
+        select id,address from t_house
+    </select>
     
 
 </mapper>

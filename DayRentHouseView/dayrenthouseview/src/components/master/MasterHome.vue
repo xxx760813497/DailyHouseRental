@@ -1,7 +1,8 @@
 <template>
   <div>
+    
     <component :is="currentItem"></component>
-
+    
     <van-tabbar v-model="itemIndex" @change="onChange">
       <van-tabbar-item icon="home-o">店面</van-tabbar-item>
       <van-tabbar-item icon="search">订单</van-tabbar-item>
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-import MasterStore from '@/components/MasterStore.vue'
+import MasterStore from '@/components/master/MasterStore.vue'
 export default {
   
   data() {

@@ -1,98 +1,85 @@
 package com.xmj.demo.service;
 
+import com.xmj.demo.entity.House;
+import com.xmj.demo.mapper.HouseMapper;
+import com.xmj.demo.tools.StringTransform;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
-import java.util.UUID;
 
-
-@RestController
+@Service
 public class HouseService {
 
+    @Resource
+    HouseMapper houseMapper;
 
-
-
-    @PostMapping("/houseTitleImg")
-    public String titleImgUpload (@RequestParam("file") MultipartFile file, HttpSession session){
-
-        if (file.isEmpty()){
-            return "error";
-        }
-
-        Integer userId=20;
-        String filePath=fileUpload(file,userId,"HouseTileImg");
-        return  filePath;
+    public House getHouseById(Integer id){
+        return houseMapper.getHouseById(id);
     }
 
-    @PostMapping("/deleteHouseImg")
-    public String deleteHouseTitleImg(@RequestParam("filePath") String filePath){
-
-        System.out.println(filePath);
-        if (deleteFile(filePath)){
-            return "success";
-        }else {
-            return "error";
-        }
-
-
+    @Transactional
+    public int addHouse(Map houseInfo,int userId){
+        String name= (String) houseInfo.get("name");
+        String location= (String) houseInfo.get("location");
+        String address= (String) houseInfo.get("address");
+        String houseTitleImg= (String) houseInfo.get("titleImg");
+        String describe= (String) houseInfo.get("describe");
+        String houseImgs= StringTransform.stringsToString((ArrayList) houseInfo.get("imgList"));
+        String equipments= StringTransform.stringsToString((ArrayList) houseInfo.get("equipmentsList"));
+        Integer price= Integer.valueOf(houseInfo.get("price").toString());
+        House house=new House(userId,name,location,address,houseTitleImg,describe,houseImgs,price,equipments);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        house.setAddDate(df.format(new Date()));
+        house.setHouseState("审核中");
+        return houseMapper.addHouse(house);
     }
 
-    @PostMapping("/houseImgs")
-    public String imgsUpload(@RequestParam("file") MultipartFile file){
-        if (file==null){
-            return "error";
-        }
-        Integer userId=20;
-        long startTime = System.currentTimeMillis();
-        String filePath=fileUpload(file,userId,"HouseImgs");
-        long endTime = System.currentTimeMillis();
-        System.out.println("程序执行时间："+(endTime-startTime)+"ms");
+    @Transactional
+    public int updateHouse(Map houseInfo){
 
-        return  filePath;
+        Integer id= (Integer) houseInfo.get("id");
+        String name= (String) houseInfo.get("name");
+        String describe= (String) houseInfo.get("describe");
+        Integer price= Integer.valueOf((String) houseInfo.get("price"));
+        String equipments= StringTransform.stringsToString((ArrayList) houseInfo.get("equipmentsList"));
+
+        System.out.println("处理后的数据：");
+        System.out.println("name:"+name);
+        System.out.println("describe:"+describe);
+        System.out.println("price:"+price);
+        System.out.println("equipments:"+equipments);
+        return houseMapper.updateHouseById(id,name,describe,price,equipments);
     }
 
-
-
-
-
-    public String fileUpload(MultipartFile file,Integer userId,String fileName){
-        if (file.isEmpty()){
-            return "error";
-        }
-        StringBuilder filePath=new StringBuilder("C:\\Users\\hasee\\Desktop\\userimgs");
-        filePath.append("\\"+userId+"\\");
-        File houseFiles=new File(filePath.toString());
-        if (!houseFiles.exists()){
-            houseFiles.mkdirs();
-        }
-        String fileType=file.getContentType().substring(file.getContentType().indexOf("/")+1);
-        String filename=userId+"_"+UUID.randomUUID()+"_"+fileName+"."+fileType;
-        filePath.append(filename);
-        System.out.println(filePath.toString());
-        try {
-            file.transferTo(new File(filePath.toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "error";
-        }
-        return filePath.toString();
+    public ArrayList<House> getHousesByUserId(Integer userId){
+        ArrayList<House> houses=houseMapper.getHousesByUserId(userId);
+        return houses;
     }
 
+    @Transactional
+    public int updateReapplyHouseById(Map houseInfo){
+        Integer id= (Integer) houseInfo.get("id");
+        String name= (String) houseInfo.get("name");
+        String describe= (String) houseInfo.get("describe");
+        System.out.println(houseInfo.get("price").getClass());
+        Integer price= Integer.valueOf((String) houseInfo.get("price"));
+        String equipments= StringTransform.stringsToString((ArrayList) houseInfo.get("equipmentsList"));
 
-    public boolean deleteFile(String filePath){
-        File file=new File(filePath);
-        if (file.exists()){
-            return file.delete();
-        }else {
-            return false;
-        }
+        System.out.println("处理后的数据：");
+        System.out.println("name:"+name);
+        System.out.println("describe:"+describe);
+        System.out.println("price:"+price);
+        System.out.println("equipments:"+equipments);
+        return houseMapper.updateReapplyHouseById(id,name,describe,price,equipments);
+    }
 
+    public int deleteHouseById(Integer id){
+        return houseMapper.deleteHouseById(id);
     }
 
 }

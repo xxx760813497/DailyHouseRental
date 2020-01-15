@@ -72,6 +72,8 @@ export default {
                             case 'master':
                               this.$router.push('/masterHome')
                               break
+                            case 'administrator':
+                              this.$router.push('/adminHome')
                           }
                         }else if(data.msg='error'){
                           alert('用户名或密码错误')

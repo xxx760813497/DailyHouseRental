@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-row>
-      <a href>
+      <a href @click.prevent="goBack">
         <span style="color:blue">《返回首页</span>
       </a>
     </van-row>
@@ -46,21 +46,20 @@
 
         <van-dialog
           v-model="LocationViewShow"
-          title="标题"
+          title="地址选择"
           show-cancel-button
           @confirm="getHousePoint"
-          @cancel="LocationViewShow=false"
+          @cancel="MapClickCancel"
         >
           <van-row>
             <van-field
               id="suggestId"
               v-model="addHouseForm.location"
               label="地址："
-              placeholder="点击选择房屋地址"
+              placeholder="点击选择房屋地址（推荐使用右侧自动定位功能）"
               right-icon="location-o"
-              @click="LocationViewShow=true"
+              @click="MapSugges"
               @click-right-icon="MyLocation"
-              @focus="MapSugges"
               required
             />
           </van-row>
@@ -68,7 +67,7 @@
             id="searchResultPanel"
             style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;position:static"></div>
           <van-row type="flex" justify="center">
-            <van-col span="18">
+            <van-col span="20">
               <baidu-map id="l-map" class="map" @ready="MapReady" :center="center" :zoom="zoom"></baidu-map>
             </van-col>
           </van-row>
@@ -163,7 +162,7 @@
     </van-row>
     <van-row type="flex" justify="center">
       <van-col>
-        <van-button round type="info" @click="addNewHouse">提交</van-button>
+        <van-button round type="info" @click="addHouseFormSubmit">提交</van-button>
       </van-col>
     </van-row>
   </div>
@@ -210,9 +209,12 @@ export default {
   },
   mounted() {},
   methods: {
+    goBack(){
+      this.$router.push('/masterHome')
+    },
     beforeRead(file) {
-      if (file.type !== "image/jpeg") {
-        Toast("请上传 jpg 格式图片")
+      if (file.type !== "image/jpeg"&&file.type !== "image/png") {
+        alert("请上传 jpg或者png 格式图片")
         return false
       }
       return true
@@ -276,22 +278,6 @@ export default {
         }
       })
     },
-    addNewHouse() {
-      var equipments = this.equipments
-      for (var equipment in equipments) {
-        if (
-          equipments[equipment] == true &&
-          this.addHouseForm.equipmentsList.indexOf(equipment) == -1
-        ) {
-          this.addHouseForm.equipmentsList.push(equipment)
-        }
-      }
-
-      this.$axios.post("/house", this.addHouseForm).then(response => {
-        let data = response.data
-        console.log("ok")
-      })
-    },
     MapReady() {
       let geolocation = new BMap.Geolocation()
       geolocation.getCurrentPosition(r => {
@@ -320,11 +306,11 @@ export default {
       })
     },
     MapSugges() {
-      // var map = new BMap.Map("l-map");
-      var ac = new BMap.Autocomplete({ input: "suggestId" })
-      var myValue
+ 
+      let ac = new BMap.Autocomplete({ input: "suggestId" })
+      let myValue
       ac.addEventListener("onconfirm", e => {
-        var _value = e.item.value
+        let _value = e.item.value
         myValue =
           _value.province +
           _value.city +
@@ -332,22 +318,33 @@ export default {
           _value.street +
           _value.business
         this.addHouseForm.location = myValue
-
+        
+        //隐藏ac
+        let elm = Array.prototype.slice.call(document.getElementsByClassName('tangram-suggestion-main'));
+                elm.forEach(function (v, i) {
+                    v.style.zIndex = -1;
+                    v.style.visibility = 'hidden';
+                });
+                
         var myGeo = new BMap.Geocoder()
         myGeo.getPoint(
         this.addHouseForm.location,
         point => {
           if (point) {
             this.center.lat = point.lat
-          this.center.lng = point.lng
-          this.zoom = 16
+            this.center.lng = point.lng
+            this.zoom = 16
           } else {
-            alert("地址选择错误!")
+            this.addHouseForm.location=''
+            alert("地址选择错误,请重新选择!")
           }
         },
         this.addHouseForm.location.slice(0, 3)
       )
       })
+    },
+    MapClickCancel(){
+      this.addHouseForm.location=''
     },
     getHousePoint() {
       var myGeo = new BMap.Geocoder('l-map')
@@ -363,8 +360,34 @@ export default {
         this.addHouseForm.location.slice(0, 3)
       )
     },
-    addHouseFormSubmit(){
-      
+    addHouseFormSubmit() {
+      let equipments = this.equipments
+      for (let equipment in equipments) {
+        if (
+          equipments[equipment] == true &&
+          this.addHouseForm.equipmentsList.indexOf(equipment) == -1
+        ) {
+          this.addHouseForm.equipmentsList.push(equipment)
+        }
+      }
+
+      for(let item in this.addHouseForm){
+        if(this.addHouseForm[item]==""||this.addHouseForm[item]==0){
+          alert('房屋资料不全，请认真填写')
+          return
+        }
+      }
+
+      this.$axios.post("/house", this.addHouseForm)
+                  .then(response => {
+                    let data = response.data
+                    if(data.msg=='success'){
+                      alert('发布房屋成功，等待管理员审核')
+                      this.$router.push('/masterHome')
+                    }else{
+                      alert('系统异常，发布失败')
+                    }
+                  })
     }
   }
 }
