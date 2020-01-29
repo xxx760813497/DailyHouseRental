@@ -20,11 +20,21 @@
         <result column="orderQuantity" property="orderQuantity" jdbcType="INTEGER" />
         <result column="houseState" property="houseState" jdbcType="INTEGER" />
     </resultMap>
+
+    <sql id="UserColumnList">
+          phonenum
+    </sql>
+
+    <select id="getUserPhoneCollection" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT
+        <include refid="UserColumnList"/>
+        FROM t_user WHERE id=#{id}
+    </select>
     
 
 
     <sql id="HouseColumnList">
-        id,userId,`name`,location,address,houseTitleImg,`describe`,houseImgs,equipments,price,grade,orderQuantity,houseState,date
+        id,userId,`name`,location,address,houseTitleImg,`describe`,houseImgs,equipments,price,grade,orderQuantity,houseState,`date`
     </sql>
 
     <select id="getHouseById" parameterType="java.lang.Integer" resultType="com.xmj.demo.entity.House">

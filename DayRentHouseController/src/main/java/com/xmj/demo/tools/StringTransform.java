@@ -43,10 +43,15 @@ public class StringTransform {
      * @return
      */
     public static String filePathOfView (String filePath){
-        String s=filePath.substring(filePath.indexOf("src"));
-        String s2=s.substring(3);
-        String s3="@"+s2;
-        String s4=s3.replaceAll("\\\\","/");
-        return s4;
+        if (filePath.indexOf("src")!=-1){
+            String s=filePath.substring(filePath.indexOf("src"));
+            String s2=s.substring(3);
+            String s3="@"+s2;
+            String s4=s3.replaceAll("\\\\","/");
+            return s4;
+        }else {
+            return filePath;
+        }
+
     }
 }

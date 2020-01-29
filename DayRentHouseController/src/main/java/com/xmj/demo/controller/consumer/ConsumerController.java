@@ -2,6 +2,7 @@ package com.xmj.demo.controller.consumer;
 
 
 import com.xmj.demo.entity.House;
+import com.xmj.demo.entity.User;
 import com.xmj.demo.service.ConsumerService;
 import com.xmj.demo.tools.LatLonUtil;
 import com.xmj.demo.tools.StringTransform;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
@@ -41,4 +43,6 @@ public class ConsumerController {
         System.out.println("最终返回结果条数："+houses.size());
         return houses;
     }
+
+
 }

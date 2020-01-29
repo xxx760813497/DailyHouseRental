@@ -18,6 +18,15 @@ public class House {
     private String addDate;
     private String date;
     private double distance;
+    private String userPhone;
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
 
     public String getAddDate() {
         return addDate;
@@ -70,8 +79,9 @@ public class House {
     public String toString() {
         return "House{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId=" + userId +'\'' +
                 ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
                 ", address='" + address + '\'' +
                 ", houseTitleImg='" + houseTitleImg + '\'' +
                 ", describe='" + describe + '\'' +
@@ -80,10 +90,12 @@ public class House {
                 ", grade='" + grade + '\'' +
                 ", orderQuantity=" + orderQuantity +
                 ", equipments='" + equipments + '\'' +
+                ", houseState='" + houseState + '\'' +
+                ", addDate='" + addDate + '\'' +
+                ", date='" + date + '\'' +
+                ", distance=" + distance +
                 '}';
     }
-
-
 
     public String getLocation() {
         return location;

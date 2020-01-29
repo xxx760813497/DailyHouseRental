@@ -3,7 +3,7 @@ package com.xmj.demo.controller.master;
 
 import com.xmj.demo.entity.House;
 import com.xmj.demo.entity.User;
-import com.xmj.demo.service.HouseService;
+import com.xmj.demo.service.MasterService;
 import com.xmj.demo.tools.StringTransform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +18,12 @@ import java.util.Map;
 public class HouseController {
 
     @Autowired
-    HouseService houseService;
+    MasterService masterService;
 
     @GetMapping("/house/{id}")
     public House getHosueById(@PathVariable("id") Integer id){
 
-        House house=houseService.getHouseById(id);
+        House house=masterService.getHouseById(id);
 
         if (house!=null){
             return house;
@@ -39,7 +39,7 @@ public class HouseController {
         System.out.println("接收到添加房屋请求");
         User user= (User) session.getAttribute("user");
         Integer userId=user.getId();
-        int row=houseService.addHouse(houseInfo,userId);
+        int row=masterService.addHouse(houseInfo,userId);
         Map result=new HashMap();
         if (row>0){
             result.put("msg","success");
@@ -56,7 +56,7 @@ public class HouseController {
         System.out.println("接收到修改房屋请求，数据为："+houseInfo);
 
         Map result=new HashMap();
-        int row=houseService.updateHouse(houseInfo);
+        int row=masterService.updateHouse(houseInfo);
         if (row>0){
             result.put("msg","success");
         }else {
@@ -68,7 +68,7 @@ public class HouseController {
     @GetMapping("/houses")
     public Map getHousesByUserId(HttpSession session){
         User user= (User) session.getAttribute("user");
-        ArrayList<House> houses= houseService.getHousesByUserId(user.getId());
+        ArrayList<House> houses= masterService.getHousesByUserId(user.getId());
         //将后端的全文件路径转换为前端可以使用的路径
         for (House house :houses){
             house.setHouseTitleImg(StringTransform.filePathOfView(house.getHouseTitleImg()));
@@ -84,7 +84,7 @@ public class HouseController {
         System.out.println("接收到重新申请房屋请求，数据为："+houseInfo);
 
         Map result=new HashMap();
-        int row=houseService.updateReapplyHouseById(houseInfo);
+        int row=masterService.updateReapplyHouseById(houseInfo);
         if (row>0){
             return "success";
         }else {
@@ -96,7 +96,7 @@ public class HouseController {
     public String houseWithdraw(@PathVariable("id") Integer id){
 
         System.out.println("接收到撤回房屋请求");
-        int row=houseService.deleteHouseById(id);
+        int row=masterService.deleteHouseById(id);
         if (row>0){
             return "success";
         }else {

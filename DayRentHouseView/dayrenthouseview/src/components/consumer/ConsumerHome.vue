@@ -11,15 +11,18 @@
 
 <script>
 import ConsumerRent from '@/components/consumer/ConsumerRent.vue'
+import ConsumerOrderList from '@/components/consumer/ConsumerOrderList.vue'
 export default {
   data() {
     return {
-      itemIndex:0,
-      currentItem:'consumerRent'
+      itemIndex:1,
+      currentItem:'consumerOrderList'
     }
   },
   components:{
-      consumerRent:ConsumerRent
+      consumerRent:ConsumerRent,
+      ConsumerOrderList:ConsumerOrderList
+
   },
   
 
@@ -31,10 +34,10 @@ export default {
     onChange(index) {
       switch(index){
         case 0:
-          this.currentItem='masterStore'
+          this.currentItem='consumerRent'
           break
         case 1:
-          this.currentItem='masterOrder'
+          this.currentItem='consumerOrderList'
           break
         case 2:
           this.currentItem='masterMyself'

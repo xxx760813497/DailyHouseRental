@@ -1,12 +1,7 @@
 <template>
   <div>
     <van-row>
-      <van-nav-bar
-        :title="houseDitail.name"
-        left-text="返回"
-        left-arrow
-        @click-left="clickBack"
-      />
+      <van-nav-bar :title="houseDitail.name" left-text="返回" left-arrow @click-left="clickBack" />
     </van-row>
 
     <van-row>
@@ -31,7 +26,7 @@
     <van-divider />
     <van-row>
       <van-col offset="1">
-        <span>屋主：小明</span>
+        <span>屋主电话：{{houseDitail.userPhone}}</span>
       </van-col>
     </van-row>
     <van-divider />
@@ -79,11 +74,7 @@
     <van-row style="margin-top:3%">
       <baidu-map class="map" :center="center" @ready="mapReady" :zoom="zoom">
         <bm-marker :position="center" :dragging="false" animation="BMAP_ANIMATION_BOUNCE">
-          <bm-label
-            :content="houseDitail.name"
-            :labelStyle="{color: 'red', fontSize : '12px'}"
-            :offset="{width:-10 , height: 30}"
-          />
+          <bm-label :content="houseDitail.name" :offset="{width:-15 , height: 30}" />
         </bm-marker>
       </baidu-map>
     </van-row>
@@ -97,24 +88,41 @@
     </van-row>
 
     <van-row style="margin-top:5%">
-      <inlineCalendar :minDate="new Date()" mode="during" @change="dataOnChange" />
+      <inlineCalendar :disabledDate="houseDitail.rentedDate" mode="multiple" @change="dataOnChange"></inlineCalendar>
+    </van-row>
+
+    <van-row>
+      <van-col offset="1">
+        <span style="font-size:10px">
+          入住时间为所选日期下午入住，第二天中午两点离开
+          <br />（连租多天则为最后一天的第二天中午两点离开）
+        </span>
+      </van-col>
     </van-row>
 
     <van-row class="reserveBtn">
-      <van-col span="7" style="font-size:15;margin-top:1%">
-        <span>{{houseDitail.beginDate}}</span>
-        <br />
-        <span>{{houseDitail.endDate}}</span>
+      <van-col span="7" style="font-size:13px;margin-top:2px">
+        <span>{{dateMsg}}</span>
+        <a v-show="dateTextBtnShow" href @click.prevent="dateTextShow=true" style="color:blue">....</a>
       </van-col>
+
+      <van-popup v-model="dateTextShow">
+        入住时间为：
+        <div v-for="(date,index) in OrderInfo.dates" :key="index">
+          <span>{{date}}</span>
+          <br />
+        </div>
+      </van-popup>
+
       <van-col span="4" offset="1" style="margin-top:3%">
-        <span>共{{houseDitail.DaysNumber}}晚</span>
+        <span>共{{OrderInfo.daysNumber}}晚</span>
       </van-col>
 
       <van-col span="2" offset="1" style="margin-top:3%">
-        <span>￥{{houseDitail.expense}}</span>
+        <span>￥{{OrderInfo.expense}}</span>
       </van-col>
 
-      <van-col span="7" offset="2" style="margin-top:3%">
+      <van-col @click="clickDestine" span="7" offset="2" style="margin-top:3%">
         <span>立即预定 →</span>
       </van-col>
     </van-row>
@@ -130,10 +138,12 @@ export default {
         lng: 0,
         lat: 0
       },
-      zoom: 16,
+      zoom: 14,
+      calendar1Show: true,
       houseDitail: {
         id: "",
         userId: "",
+        userPhone:"",
         name: "",
         address: "",
         location: "",
@@ -143,12 +153,7 @@ export default {
         houseImgs: "",
         grade: "",
         price: -1,
-        beginDate: "",
-        endDate: "",
-        allDate: [],
-        DaysNumber: 0,
-        expense: -1
-        // rentedDate:[]
+        rentedDate: []
       },
       equipments: {
         noreshui: true,
@@ -164,12 +169,33 @@ export default {
         nobingxiang: true,
         noxiyiji: true,
         notingchechang: true
+      },
+      dateMsg: "请选择入住日期",
+      dateTextBtnShow: false,
+      dateTextShow: false,
+      OrderInfo: {
+        dates: [],
+        expense: 0,
+        daysNumber: 0
       }
     }
   },
 
   created() {
     this.getHouseDitail()
+  },
+  watch: {
+    newName(val) {
+      let addresss = this.houseDitail.address.split(",")
+      this.center.lng = addresss[0]
+      this.center.lat = addresss[1]
+      this.zoom = 16
+    }
+  },
+  computed: {
+    newName() {
+      return this.houseDitail.address
+    }
   },
 
   methods: {
@@ -207,22 +233,16 @@ export default {
     },
     dataOnChange(date) {
       let selectDates = date.map(item => item.format("YYYY-MM-DD"))
-      if (selectDates.length > 1) {
-        this.houseDitail.beginDate = selectDates[0] + "入住"
-        this.houseDitail.endDate = selectDates[1] + "离开"
-        this.houseDitail.allDate = this.getAllDate(
-          selectDates[0],
-          selectDates[1]
-        )
-        this.houseDitail.DaysNumber = this.houseDitail.allDate.length
-        this.houseDitail.expense =
-          this.houseDitail.DaysNumber * this.houseDitail.price
-      } else {
-        this.houseDitail.beginDate = "请选择离店时间"
-        this.houseDitail.endDate = ""
-        this.houseDitail.allDate = []
-        this.houseDitail.DaysNumber = 0
-        this.houseDitail.expense = 0
+
+      if (selectDates.length > 0) {
+        this.OrderInfo.dates = selectDates
+        this.dateMsg = "您选择的入住日期有："
+        this.dateTextBtnShow = true
+
+        this.OrderInfo.daysNumber = this.OrderInfo.dates.length
+
+        this.OrderInfo.expense =
+          this.OrderInfo.daysNumber * this.houseDitail.price
       }
     },
     getHouseDitail() {
@@ -233,13 +253,10 @@ export default {
           this.houseDitail.id = data.id
           this.houseDitail.userId = data.userId
           this.houseDitail.name = data.name
-
+          this.houseDitail.userPhone=data.userPhone
           //地图定位
           this.houseDitail.address = data.address
-          // let addresss = this.houseDitail.address.split(",")
-          // this.center.lng = addresss[0]
-          // this.center.lat = addresss[1]
-          // this.zoom = 19
+
 
           this.houseDitail.location = data.location
           this.houseDitail.describe = data.describe
@@ -256,8 +273,19 @@ export default {
             this.houseDitail.houseImgs
           )
 
+          //房屋已经租借日期的处理
+          if (data.date != null && data.date.indexOf(",") != -1) {
+            this.houseDitail.rentedDate = data.date.split(",")
+          } else {
+            if (data.date != null) {
+              this.houseDitail.rentedDate.push(data.date)
+            }
+          }
+
           this.houseDitail.grade = data.grade
           this.houseDitail.price = data.price
+          this.houseDitail.rentedDate = data.rentedDate
+
           this.houseDitail.expense = 0
           this.houseDitail.beginDate = "请选择时间"
         } else {
@@ -326,14 +354,54 @@ export default {
       }
     },
     mapReady() {
-      let addresss = this.houseDitail.address.split(",")
-      this.center.lng = addresss[0]
-      this.center.lat = addresss[1]
-      this.zoom = 19
+      // let addresss = this.houseDitail.address.split(",")
+      // this.center.lng = addresss[0]
+      // this.center.lat = addresss[1]
+      // this.zoom = 18
     },
-    clickBack(){
-        this.$router.go(-1);//返回上一层
+    clickBack() {
+      this.$router.go(-1) //返回上一层
     },
+    clickDestine() {
+      //判断是否有选择日期
+      if (this.OrderInfo.dates.length < 1) {
+        alert("请选择要预定的时间")
+        return
+      }
+
+      //判断日期是否是过时日期
+      let currentDate = new Date()
+      let year = currentDate.getFullYear()
+      let month = currentDate.getMonth() + 1
+      let day = currentDate.getDate()
+      let dateStr = year + "-" + month + "-" + day
+      for (let i = 0; i < this.OrderInfo.dates.length; i++) {
+        let selectTime = this.OrderInfo.dates[i].split("-")
+        let selectYear = parseInt(selectTime[0])
+        let selectMon = parseInt(selectTime[1])
+        let selectDay = parseInt(selectTime[2])
+        if (
+          selectYear >= year &&
+          selectMon >= parseInt(month) &&
+          selectDay >= parseInt(day)
+        ) {
+          this.$router.push({
+            name: "ConsumerOrder",
+            params: {
+              houseId: this.houseDitail.id,
+              houseTitleImg: this.houseDitail.houseImgs[0],
+              housePrice: this.houseDitail.price,
+              orderExpense: this.OrderInfo.expense,
+              orderDate: this.OrderInfo.dates,
+              orderDaysNum: this.OrderInfo.daysNumber
+            }
+          })
+        } else {
+          alert("请选择正确时间（今天的日期是：" + dateStr + ")")
+          return
+        }
+      }
+    }
   }
 }
 </script>
@@ -345,5 +413,28 @@ export default {
 .reserveBtn {
   height: 50px;
   background-color: #ffdab9;
+}
+.RetendPoint {
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 10%;
+  right: 14%;
+}
+.RetendText1 {
+  position: absolute;
+  top: 0%;
+  right: 10%;
+  font-size: 5px;
+  opacity: 0.5;
+}
+.RetendText2 {
+  position: absolute;
+  top: 30%;
+  right: 10%;
+  font-size: 5px;
+  opacity: 0.5;
 }
 </style>

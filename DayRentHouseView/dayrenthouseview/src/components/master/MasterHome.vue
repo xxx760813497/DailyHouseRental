@@ -15,6 +15,7 @@
 
 <script>
 import MasterStore from '@/components/master/MasterStore.vue'
+import MasterOrderList from '@/components/master/MasterOrderList.vue'
 export default {
   
   data() {
@@ -24,7 +25,8 @@ export default {
     }
   },
   components:{
-      masterStore:MasterStore
+      masterStore:MasterStore,
+      masterOrderList:MasterOrderList
   },
   
 
@@ -39,7 +41,7 @@ export default {
           this.currentItem='masterStore'
           break
         case 1:
-          this.currentItem='masterOrder'
+          this.currentItem='masterOrderList'
           break
         case 2:
           this.currentItem='masterMyself'

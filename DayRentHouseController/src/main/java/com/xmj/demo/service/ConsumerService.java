@@ -1,21 +1,36 @@
 package com.xmj.demo.service;
 
 import com.xmj.demo.entity.House;
+import com.xmj.demo.entity.Order;
+import com.xmj.demo.entity.User;
 import com.xmj.demo.mapper.HouseMapper;
+import com.xmj.demo.mapper.OrderMapper;
+import com.xmj.demo.mapper.UserMapper;
 import com.xmj.demo.tools.LatLonUtil;
+import com.xmj.demo.tools.StringTransform;
 import com.xmj.demo.unitilEmitity.HouseInfo;
 import com.xmj.demo.unitilEmitity.Point;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ConsumerService {
 
     @Resource
     HouseMapper houseMapper;
+
+    @Resource
+    OrderMapper orderMapper;
+
+    @Resource
+    UserMapper userMapper;
 
     public ArrayList<House> selectHouseByAddress(Point p, int round,ArrayList<String> dateList){
 
@@ -79,5 +94,58 @@ public class ConsumerService {
 
 
         return  houses;
+    }
+
+    @Transactional
+    public int addOrder(Integer userId,Integer houseId,ArrayList boardDate, String boardUserName,String boardUserTel, Integer orderPrice){
+
+        String boardDateString="";
+        for (int i=0;i<boardDate.size();i++){
+            boardDateString+=boardDate.get(i);
+            if (i!=boardDate.size()-1){
+                boardDateString+=',';
+            }
+        }
+
+        Date date=new Date();
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String orderProduceTime=simpleDateFormat.format(date);
+        String orderState="已下单";
+        return orderMapper.addOrder(userId,houseId,boardDateString,boardUserName,boardUserTel,orderPrice,orderProduceTime,orderState);
+    };
+
+    public ArrayList<Map> getOrderByUserId(Integer userId) {
+        ArrayList<Order> orders= orderMapper.getOrderByUserId(userId);
+        ArrayList<Map> results=new ArrayList<Map>();
+        for (Order order:orders){
+            if (order.getUser().getStatus().equals("consumer")){
+                Map result=new HashMap();
+                result.put("houseId",order.getHouse().getId());
+                result.put("houseName",order.getHouse().getName());
+                order.getHouse().setHouseTitleImg(StringTransform.filePathOfView(order.getHouse().getHouseTitleImg()));
+                result.put("houseTitleImg",order.getHouse().getHouseTitleImg());
+                User master=userMapper.getUserById(order.getHouse().getUserId());
+                result.put("userPhone",master.getPhonenum());
+                result.put("orderId",order.getId());
+                result.put("boardDate",order.getBoardDate());
+                result.put("boardUserName",order.getBoardUserName());
+                result.put("boardUserTel",order.getBoardUserTel());
+                result.put("orderPrice",order.getOrderPrice());
+                result.put("orderProduceTime",order.getOrderProduceTime());
+                result.put("orderState",order.getOrderState());
+                results.add(result);
+            }
+        }
+        return results;
+    }
+
+    @Transactional
+    public Integer deleteOrderById(Integer id){
+        return orderMapper.deleteOrderById(id);
+    }
+
+    @Transactional
+    public Integer updateOrderStateById(Integer id,String orderState){
+        return  orderMapper.updateOrderStateById(id,orderState);
     }
 }

@@ -1,8 +1,6 @@
 package com.xmj.demo.entity;
 
 
-import com.sun.org.apache.xml.internal.security.algorithms.Algorithm;
-
 public class User {
     private Integer id;
     private String phonenum;

@@ -14,6 +14,8 @@ import AdminHouseDetail from '@/components/administrator/AdminHouseDetail.vue'
 
 import ConsumerHome from '@/components/consumer/ConsumerHome.vue'
 import ConsumerHouseList from '@/components/consumer/ConsumerHouseList.vue'
+import ConsumerOrder from '@/components/consumer/ConsumerOrder.vue'
+import ConsumerOrderList from '@/components/consumer/ConsumerOrderList.vue'
 
 import HouseDetail from '@/components/HouseDetail.vue'
 
@@ -25,7 +27,6 @@ const routes = [
   { path: '/firstLogin', component: FristLogin },
   { path: '/register', component: Register },
   
-
   { path: '/masterHome', component: MasterHome},
   { path: '/masterStore', component: MasterStore },
   { path: '/addHouse', component: AddHouse },
@@ -35,7 +36,9 @@ const routes = [
 
   { path: '/consumerHome', component: ConsumerHome },
   { path: '/consumerHouseList', component: ConsumerHouseList },
-  
+  { path: '/consumerOrder', name:'ConsumerOrder',component: ConsumerOrder },
+  { path: '/consumerOrderList',component: ConsumerOrderList },
+
   { path: '/houseDetail', component: HouseDetail }
 
 
