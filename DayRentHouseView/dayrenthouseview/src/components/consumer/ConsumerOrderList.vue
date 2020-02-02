@@ -41,6 +41,7 @@
             <van-step>屋主接单</van-step>
             <van-step>租客入住</van-step>
             <van-step>订单完成</van-step>
+            <van-step>住房评价</van-step>
           </van-steps>
         </van-row>
         <van-row type="flex" justify="center" style="font-size:14px">
@@ -66,6 +67,15 @@
             type="warning"
             size="small"
           >已入住房屋</van-button>
+        </van-col>
+        <van-col offset="19">
+          <van-button
+            @click="clickComment(order.orderId,order.houseId,order.houseTitleImg,order.houseName,order.orderPrice)"
+            v-if="order.orderState==='已完成'"
+            plain
+            type="warning"
+            size="small"
+          >评价</van-button>
         </van-col>
       </van-row>
     </div>
@@ -126,7 +136,11 @@ export default {
                 break
               case "已完成":
                 data[i].active = 3
-                data[i].orderTip = "订单已完成"
+                data[i].orderTip = "对这次住房体验进行评价吧~"
+                break
+              case "已评价":
+                data[i].active = 4
+                data[i].orderTip = "订单完成"
                 break
             }
           }
@@ -183,6 +197,16 @@ export default {
         .catch(() => {
           // on cancel
         })
+    },
+    clickComment(orderId,houseId,houseTitleImg,houseName,orderExpense){
+      this.$router.push({name:'ComsumerComment',
+                        params :
+                         { orderId: orderId,
+                           houseId:houseId,
+                           houseTitleImg:houseTitleImg,
+                           houseName:houseName,
+                           orderExpense:orderExpense
+                         } })
     }
   },
   created() {

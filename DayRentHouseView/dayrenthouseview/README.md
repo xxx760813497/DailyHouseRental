@@ -133,4 +133,4 @@ getImg(imgPath){
       return require('@/assets/'+img); 
     }
 
-###采坑，发现在component标签中的组件中使用vant提供的uploader上传文件中发送请求会刷新网页（没有找到解决方法，只好将功能移动到了新的组件中）
+###采坑，发现在component标签中的组件中使用vant提供的uploader上传文件中发送请求会刷新网页（没有找到解决方法，推测是component标签的原因）。更新：不是component标签的问题，而是因为使用了router的带参数跳转url，uploader就会自动刷新页面。再次更新：真正的原因是，getImg这个方法中的require，具体原因猜测可能和webpack有关，尚不清楚。

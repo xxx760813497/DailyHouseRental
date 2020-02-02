@@ -5,7 +5,7 @@
     </van-row>
 
     <van-row>
-      <van-swipe :autoplay="3000000" indicator-color="white">
+      <van-swipe :autoplay="1500" indicator-color="white">
         <van-swipe-item v-for="(imgPath,index) in houseDitail.houseImgs" :key="index">
           <van-image width="100%" height="300px" :src="getImg(imgPath)" />
         </van-swipe-item>
@@ -20,27 +20,28 @@
 
     <van-row>
       <van-col offset="1">
-        <span>￥{{houseDitail.price}}</span>
+        <span style="font-size:13px">￥{{houseDitail.price}}</span>
       </van-col>
     </van-row>
     <van-divider />
     <van-row>
       <van-col offset="1">
-        <span>屋主电话：{{houseDitail.userPhone}}</span>
+        <span style="font-size:13px">屋主电话：{{houseDitail.userPhone}}</span>
       </van-col>
     </van-row>
     <van-divider />
     <van-row>
       <van-col offset="1">
-        <span>房屋描述</span>
+        <span style="font-size:14px">房屋描述</span>
         <br />
-        <span>{{houseDitail.describe}}</span>
+        <br />
+        <span style="font-size:13px">{{houseDitail.describe}}</span>
       </van-col>
     </van-row>
     <van-divider />
 
     <van-row>
-      <van-col offset="1">房屋设备</van-col>
+      <van-col offset="1"><span style="font-size:14px">房屋设备</span></van-col>
     </van-row>
 
     <van-row style="margin-top:3%">
@@ -63,11 +64,38 @@
     <van-divider />
 
     <van-row>
+      <van-col offset="1" span="8">
+        <span style="font-size:15px">房屋评价（{{commentary.commentaryNumber}}）</span>
+      </van-col>
+      <van-col v-if="commentary.commentaryNumber>0" offset="10">
+        <a href @click.prevent="clickCommentList">
+          <span style="color:#FFC125;font-size:13px">查看全部></span>
+        </a>
+      </van-col>
+    </van-row>
+
+    <van-row v-if="commentary.commentaryNumber>0" style="margin-top:3%">
+      <van-col offset="1" span="9">{{commentary.userPhone}}</van-col>
+      <van-col offset="1" span="4">
+        <span style="font-size:11px">评分：{{commentary.fraction}}</span>
+      </van-col>
+      <van-col offset="2">
+        <span style="font-size:11px">{{commentary.creatTime}}</span>
+      </van-col>
+    </van-row>
+
+    <van-row>
+      <van-col style="" offset="1">
+        <span v-if="commentary.commentaryNumber>0" style="font-size:12px">{{commentary.content}}</span>
+        <span v-if="commentary.commentaryNumber==0" style="font-size:12px">本房屋暂时没有评价</span>
+      </van-col>
+    </van-row>
+    <van-divider />
+
+    <van-row>
       <van-col offset="1">
-        <span>地理位置</span>
-        <br />
-        <br />
-        <span>{{houseDitail.location}}</span>
+        <span style="font-size:14px">地理位置：{{houseDitail.location}}</span>
+
       </van-col>
     </van-row>
 
@@ -82,7 +110,7 @@
 
     <van-row>
       <van-col offset="1">
-        <span>可租日期</span>
+        <span style="font-size:13px">可租日期</span>
         <br />
       </van-col>
     </van-row>
@@ -143,7 +171,7 @@ export default {
       houseDitail: {
         id: "",
         userId: "",
-        userPhone:"",
+        userPhone: "",
         name: "",
         address: "",
         location: "",
@@ -154,6 +182,13 @@ export default {
         grade: "",
         price: -1,
         rentedDate: []
+      },
+      commentary:{
+        commentaryNumber:0,
+        userPhone:"",
+        content:"",
+        fraction:"",
+        creatTime:""
       },
       equipments: {
         noreshui: true,
@@ -253,10 +288,9 @@ export default {
           this.houseDitail.id = data.id
           this.houseDitail.userId = data.userId
           this.houseDitail.name = data.name
-          this.houseDitail.userPhone=data.userPhone
+          this.houseDitail.userPhone = data.userPhone
           //地图定位
           this.houseDitail.address = data.address
-
 
           this.houseDitail.location = data.location
           this.houseDitail.describe = data.describe
@@ -292,6 +326,16 @@ export default {
           alert("系统异常，请重试")
         }
       })
+      this.$axios.get("/pionnerCommentary/"+this.houseId).then(response=>{
+
+        let data=response.data
+        this.commentary.commentaryNumber=data.commentaryNumber
+        this.commentary.userPhone=data.userPhone
+        this.commentary.content=data.content
+        this.commentary.fraction=data.fraction
+        this.commentary.creatTime=data.creatTime
+      })
+
     },
 
     transforImgs(imgs) {
@@ -361,6 +405,10 @@ export default {
     },
     clickBack() {
       this.$router.go(-1) //返回上一层
+    },
+    clickCommentList(){
+      this.$router.push({ path:'/commentaryList',query: {houseId:this.houseId}})
+    
     },
     clickDestine() {
       //判断是否有选择日期

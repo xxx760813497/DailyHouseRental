@@ -16,6 +16,8 @@ import ConsumerHome from '@/components/consumer/ConsumerHome.vue'
 import ConsumerHouseList from '@/components/consumer/ConsumerHouseList.vue'
 import ConsumerOrder from '@/components/consumer/ConsumerOrder.vue'
 import ConsumerOrderList from '@/components/consumer/ConsumerOrderList.vue'
+import ConsumerComment from '@/components/consumer/ConsumerComment.vue'
+import CommentaryList from '@/components/consumer/CommentaryList.vue'
 
 import HouseDetail from '@/components/HouseDetail.vue'
 
@@ -38,6 +40,8 @@ const routes = [
   { path: '/consumerHouseList', component: ConsumerHouseList },
   { path: '/consumerOrder', name:'ConsumerOrder',component: ConsumerOrder },
   { path: '/consumerOrderList',component: ConsumerOrderList },
+  { path: '/comsumerComment',name:'ComsumerComment',component: ConsumerComment },
+  { path: '/commentaryList',component: CommentaryList },
 
   { path: '/houseDetail', component: HouseDetail }
 

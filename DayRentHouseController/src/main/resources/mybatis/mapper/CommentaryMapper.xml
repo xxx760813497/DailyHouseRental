@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmj.demo.mapper.CommentaryMapper">
+
+
+    <resultMap id="CommentaryMap" type="com.xmj.demo.entity.Commentary" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="houseId" property="houseId" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="creatTime" property="creatTime" jdbcType="VARCHAR" />
+        <result column="imgs" property="imgs" jdbcType="VARCHAR" />
+        <result column="fraction" property="fraction" jdbcType="DOUBLE" />
+    </resultMap>
+
+    <sql id="CommentaryColumnList">
+        id,userId,houseId,content,creatTime,imgs,fraction
+    </sql>
+
+    <insert id="addCommentary">
+        insert into t_commentary
+          (userId,houseId,content,creatTime,imgs,fraction)
+        VALUE
+          (#{arg0},#{arg1},#{arg2},#{arg3},#{arg4},#{arg5})
+    </insert>
+    
+    <select id="getCommentaryById" resultMap="CommentaryMap" parameterType="java.lang.Integer">
+        select
+        <include refid="CommentaryColumnList"/>
+        from  t_commentary where id=#{id}
+    </select>
+    
+    <select id="getCommentaryByHouseId" resultMap="CommentaryMap" parameterType="java.lang.Integer">
+        select
+          <include refid="CommentaryColumnList"/>
+        from t_commentary where houseId=#{houseId}
+    </select>
+    
+    <delete id="deleteCommentaryById" parameterType="java.lang.Integer">
+        DELETE from t_commentary where id=#{id}
+    </delete>
+
+    <select id="getPionnerCommentary" resultType="com.xmj.demo.entity.Commentary" parameterType="java.lang.Integer">
+        select * from t_commentary where houseId=#{houseId} limit 1
+    </select>
+
+    <select id="getCommentaryNumber" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(*) from t_commentary where houseId=#{houseId}
+    </select>
+
+</mapper>

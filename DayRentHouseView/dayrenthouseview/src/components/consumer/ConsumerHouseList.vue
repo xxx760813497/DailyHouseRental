@@ -67,8 +67,8 @@ export default {
         ],
         option2: [
           { text: "默认排序", value: 0 },
-          { text: "价格降序", value: 1 },
-          { text: "价格升序", value: 2 }
+          { text: "价格升序", value: 1 },
+          { text: "价格降序", value: 2 }
         ],
         houseList: []
       }
@@ -237,17 +237,6 @@ export default {
             this.selectHouseDivShow=false
           })
   },
-  mounted() {
-      
-  },
-  beforeCreate() {},
-  beforeMount() {},
-  beforeUpdate() {},
-  updated() {},
-  beforeDestroy() {},
-  destroyed() {},
-  activated() {},
-  components: {}
 }
 </script>
 
