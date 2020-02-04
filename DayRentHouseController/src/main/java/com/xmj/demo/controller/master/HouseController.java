@@ -3,6 +3,7 @@ package com.xmj.demo.controller.master;
 
 import com.xmj.demo.entity.House;
 import com.xmj.demo.entity.User;
+import com.xmj.demo.service.CommentaryService;
 import com.xmj.demo.service.MasterService;
 import com.xmj.demo.tools.StringTransform;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class HouseController {
     @Autowired
     MasterService masterService;
 
+    @Autowired
+    CommentaryService commentaryService;
+
     @GetMapping("/house/{id}")
     public House getHosueById(@PathVariable("id") Integer id){
 
@@ -31,7 +35,6 @@ public class HouseController {
             return  null;
         }
     }
-
 
     @PostMapping("/house")
     public Map addHouse(@RequestBody Map houseInfo, HttpSession session){
@@ -66,23 +69,43 @@ public class HouseController {
     }
 
     @GetMapping("/houses")
-    public Map getHousesByUserId(HttpSession session){
+    public ArrayList<Map> getHousesByUserId(HttpSession session){
         User user= (User) session.getAttribute("user");
         ArrayList<House> houses= masterService.getHousesByUserId(user.getId());
+        ArrayList<Map> results=new ArrayList<>();
         //将后端的全文件路径转换为前端可以使用的路径
         for (House house :houses){
             house.setHouseTitleImg(StringTransform.filePathOfView(house.getHouseTitleImg()));
+            Map result=new HashMap();
+            result.put("id",house.getId());
+            result.put("userId",house.getUserId());
+            result.put("name",house.getName());
+            result.put("location",house.getLocation());
+            result.put("address",house.getAddress());
+            result.put("houseTitleImg",house.getHouseTitleImg());
+            result.put("describe",house.getDescribe());
+            result.put("houseImgs",house.getHouseImgs());
+            result.put("price",house.getPrice());
+            result.put("grade",house.getGrade());
+            result.put("orderQuantity",house.getOrderQuantity());
+            result.put("equipments",house.getEquipments());
+            result.put("houseState",house.getHouseState());
+            result.put("houseState",house.getHouseState());
+            result.put("houseState",house.getHouseState());
+            int noReadCommentaryNum =commentaryService.getNoReadCommentaryNumber(house.getId());
+            result.put("noReadCommentaryNum",noReadCommentaryNum);
+            results.add(result);
         }
-        Map result=new HashMap();
-        result.put("housesList",houses);
-        return result;
+
+
+
+        return results;
     }
 
     @PostMapping("/reapplyHouse")
     public String reapplyHouse(@RequestBody Map houseInfo){
 
         System.out.println("接收到重新申请房屋请求，数据为："+houseInfo);
-
         Map result=new HashMap();
         int row=masterService.updateReapplyHouseById(houseInfo);
         if (row>0){
@@ -105,7 +128,6 @@ public class HouseController {
 
 
     }
-
 
 
 

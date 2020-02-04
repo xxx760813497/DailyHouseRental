@@ -13,5 +13,9 @@ public interface CommentaryMapper {
 
     Commentary getPionnerCommentary(Integer houseId);
 
-    public int getCommentaryNumber(Integer houseId);
+     int getCommentaryNumber(Integer houseId);
+
+    int getNoReadCommentaryNumber(Integer houseId);
+
+    int updateCommentaryReply(Integer id,String content);
 }

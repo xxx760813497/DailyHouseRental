@@ -2,6 +2,7 @@ package com.xmj.demo.service;
 
 import com.xmj.demo.entity.House;
 import com.xmj.demo.entity.Order;
+import com.xmj.demo.mapper.CommentaryMapper;
 import com.xmj.demo.mapper.HouseMapper;
 import com.xmj.demo.mapper.OrderMapper;
 import com.xmj.demo.mapper.UserMapper;
@@ -28,6 +29,8 @@ public class MasterService {
 
     @Resource
     UserMapper userMapper;
+
+
 
     public House getHouseById(Integer id){
         House house=houseMapper.getHouseById(id);
@@ -138,5 +141,6 @@ public class MasterService {
     public Integer updateOrderStateById(Integer id,String orderState){
         return  orderMapper.updateOrderStateById(id,orderState);
     }
+
 
 }

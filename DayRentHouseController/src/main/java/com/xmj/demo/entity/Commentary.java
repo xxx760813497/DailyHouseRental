@@ -8,7 +8,24 @@ public class Commentary {
     String creatTime;
     String imgs;
     Double fraction;
+    String isRead;
+    String reply;
 
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
 
     @Override
     public String toString() {

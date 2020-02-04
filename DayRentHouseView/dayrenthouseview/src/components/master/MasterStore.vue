@@ -3,13 +3,13 @@
     <van-row type="flex" justify="center">
       <span>我的店铺</span>
     </van-row>
-
     <div v-for="(house,index) in housesList" :key="index">
       <van-row style="background-color:#F4F4F4;margin-top:2%">
         <van-col span="8">
+
           <van-image fit="fill" width="120" height="140" :src="getImg(house.houseTitleImg)" />
         </van-col>
-        <van-col span="15" offset="1">
+        <van-col span="15" offset="1" style="font-size:14px">
           <span>房名：{{house.name}}</span>
           <br />
           <span>地址：{{house.location}}</span>
@@ -24,7 +24,9 @@
             <span>房屋状态：</span>
             <span style="color:red">{{house.houseState}}</span>
           </div>
-          <br />
+          <div  v-if="house.noReadCommentaryNum>0" style="font-size:12px;color:red">
+            {{house.noReadCommentaryNum}}条未回复评论
+          </div>
         </van-col>
       </van-row>
       <van-row v-if="house.houseState=='审核通过'">
@@ -388,7 +390,8 @@ export default {
         // imgList: [],
         equipmentsList: []
       },
-      houseReapplyShow: false
+      houseReapplyShow: false,
+      allNoCommentaryNumber:0
     }
   },
 
@@ -410,14 +413,17 @@ export default {
     },
     getHouseList() {
       this.$axios.get("/houses").then(response => {
-        let data = response.data.housesList
+        let data = response.data
         this.housesList = data
+        for(let i=0;i<this.housesList.length;i++){
+          this.allNoCommentaryNumber+=this.housesList[i].noReadCommentaryNum
+        }
+        this.sendNoReadNum()
       })
     },
     getHouseDetail(houseId) {
       this.$router.push({ path: "/houseDetail", query: { id: houseId } })
     },
-
     updateHouseDetail(index) {
       this.houseUpdateShow = true
       this.houseDetail = this.housesList[index]
@@ -533,7 +539,6 @@ export default {
         this.houseUpdateShow = false
       })
     },
-
     reapplyHouseDetail(index) {
       this.houseReapplyShow = true
       this.houseDetail = this.housesList[index]
@@ -632,6 +637,9 @@ export default {
                         }
                       })
         })
+    },
+    sendNoReadNum(){
+      this.$emit('func',this.allNoCommentaryNumber)
     }
   }
 }

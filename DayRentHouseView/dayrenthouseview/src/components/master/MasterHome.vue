@@ -1,10 +1,10 @@
 <template>
   <div>
     
-    <component :is="currentItem"></component>
+    <component @func="getMsgFromChild" :is="currentItem"></component>
     
     <van-tabbar v-model="itemIndex" @change="onChange">
-      <van-tabbar-item icon="home-o">店面</van-tabbar-item>
+      <van-tabbar-item :info="masterStore.noReadCommentaryNum" icon="home-o">店面</van-tabbar-item>
       <van-tabbar-item icon="search">订单</van-tabbar-item>
       <van-tabbar-item icon="friends-o">我的</van-tabbar-item>
     </van-tabbar>
@@ -21,7 +21,10 @@ export default {
   data() {
     return {
       itemIndex:0,
-      currentItem:'masterStore'
+      currentItem:'masterStore',
+      masterStore:{
+        noReadCommentaryNum:"",
+      }
     }
   },
   components:{
@@ -46,6 +49,12 @@ export default {
         case 2:
           this.currentItem='masterMyself'
           break
+      }
+    },
+    getMsgFromChild(data){
+      this.masterStore.noReadCommentaryNum=data
+      if(this.masterStore.noReadCommentaryNum==0){
+        this.masterStore.noReadCommentaryNum=""
       }
     }
   }

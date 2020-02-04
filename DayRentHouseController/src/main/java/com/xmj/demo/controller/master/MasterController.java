@@ -1,23 +1,23 @@
 package com.xmj.demo.controller.master;
 
 import com.xmj.demo.entity.User;
+import com.xmj.demo.service.CommentaryService;
 import com.xmj.demo.service.MasterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
-public class MasterOrderController {
+public class MasterController {
 
     @Autowired
     MasterService masterService;
 
+    @Autowired
+    CommentaryService commentaryService;
 
     @GetMapping("/masterOrders")
     public ArrayList<Map> getMasterOrders(HttpSession session){
@@ -45,5 +45,28 @@ public class MasterOrderController {
     }
 
 
+    @GetMapping("/getUserState")
+    public String getUserState(HttpSession session){
+        if (session.getAttribute("user")!=null){
+            User user= (User) session.getAttribute("user");
+            return user.getStatus();
+        }else {
+            return "noLogin";
+        }
+    }
+
+    @PostMapping("/updateCommentaryReply")
+    public String updateCommentaryReply(@RequestBody Map info){
+        Integer commentaryId= (Integer) info.get("commentaryId");
+        String content= (String) info.get("content");
+
+        int row=commentaryService.updateCommentaryReply(commentaryId,content);
+
+        if (row>0){
+            return "success";
+        }else {
+            return "error";
+        }
+    }
 
 }

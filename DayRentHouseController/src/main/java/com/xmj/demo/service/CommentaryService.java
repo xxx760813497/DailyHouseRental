@@ -25,7 +25,6 @@ public class CommentaryService {
     @Resource
     OrderMapper orderMapper;
 
-
     @Transactional
     public Integer  addCommentary(Map info,Integer userId){
         Integer houseId= (Integer) info.get("houseId");
@@ -70,4 +69,12 @@ public class CommentaryService {
         return  commentaryMapper.getCommentaryByHouseId(houseId);
     }
 
+    public int getNoReadCommentaryNumber(Integer houseId){
+        return commentaryMapper.getNoReadCommentaryNumber(houseId);
+    }
+
+    @Transactional
+    public int updateCommentaryReply(Integer id,String content){
+        return commentaryMapper.updateCommentaryReply(id,content);
+    }
 }

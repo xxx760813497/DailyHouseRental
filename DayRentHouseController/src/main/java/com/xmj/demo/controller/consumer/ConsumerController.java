@@ -93,10 +93,13 @@ public class ConsumerController {
             String userPohone=user.getPhonenum().substring(0,3);
             userPohone+="******";
             userPohone+=user.getPhonenum().substring(9);
+            result.put("id",commentary.getId());
             result.put("userPhone",userPohone);
             result.put("content",commentary.getContent());
             result.put("fraction",commentary.getFraction());
             result.put("creatTime",commentary.getCreatTime());
+            result.put("reply",commentary.getReply());
+            result.put("isRead",commentary.getIsRead());
 
             if (commentary.getImgs().indexOf(",")!=-1){
                 result.put("imgs",commentary.getImgs());

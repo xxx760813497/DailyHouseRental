@@ -16,14 +16,14 @@
     </resultMap>
 
     <sql id="CommentaryColumnList">
-        id,userId,houseId,content,creatTime,imgs,fraction
+        id,userId,houseId,content,creatTime,imgs,fraction,isRead,reply
     </sql>
 
     <insert id="addCommentary">
         insert into t_commentary
-          (userId,houseId,content,creatTime,imgs,fraction)
+          (userId,houseId,content,creatTime,imgs,fraction,isread)
         VALUE
-          (#{arg0},#{arg1},#{arg2},#{arg3},#{arg4},#{arg5})
+          (#{arg0},#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},"no")
     </insert>
     
     <select id="getCommentaryById" resultMap="CommentaryMap" parameterType="java.lang.Integer">
@@ -49,5 +49,13 @@
     <select id="getCommentaryNumber" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select count(*) from t_commentary where houseId=#{houseId}
     </select>
+
+    <select id="getNoReadCommentaryNumber" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from t_commentary where houseId=#{houseId} and isread="no"
+    </select>
+
+    <update id="updateCommentaryReply">
+        update t_commentary set `reply`=#{arg1},isread="yes" where id=#{arg0}
+    </update>
 
 </mapper>
