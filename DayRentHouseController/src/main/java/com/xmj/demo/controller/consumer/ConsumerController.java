@@ -108,7 +108,25 @@ public class ConsumerController {
             }
             results.add(result);
         }
-
         return results;
+    }
+
+    @PostMapping("/updatePassword")
+    public String updatePassword(@RequestBody Map info,HttpSession session){
+        String password= (String) info.get("newPassword");
+        User user= (User) session.getAttribute("user");
+        Integer id=user.getId();
+        int row=consumerService.updateUserPassword(id,password);
+        if (row>0){
+            return "success";
+        }else {
+            return  "error";
+        }
+    }
+
+    @GetMapping("/userPhone")
+    public String getUserPhone(HttpSession session){
+        User user= (User) session.getAttribute("user");
+        return user.getPhonenum();
     }
 }

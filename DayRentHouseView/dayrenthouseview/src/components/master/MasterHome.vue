@@ -16,6 +16,7 @@
 <script>
 import MasterStore from '@/components/master/MasterStore.vue'
 import MasterOrderList from '@/components/master/MasterOrderList.vue'
+import MasterMyself from '@/components/master/MasterMyself.vue'
 export default {
   
   data() {
@@ -29,7 +30,8 @@ export default {
   },
   components:{
       masterStore:MasterStore,
-      masterOrderList:MasterOrderList
+      masterOrderList:MasterOrderList,
+      masterMyself:MasterMyself
   },
   
 

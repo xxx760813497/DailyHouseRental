@@ -117,7 +117,7 @@ export default {
               data[i].orderTip = "屋主拒绝了本次订单"
               data[i].activeColor='#EE0000'
               break
-            case "待入住":
+            case "已入住":
               data[i].active = 2
               data[i].orderTip = "租客住宿中"
               break
@@ -125,6 +125,10 @@ export default {
               data[i].active = 3
               data[i].orderTip = "订单已完成"
               break
+            case "已评价":
+                data[i].active = 3
+                data[i].orderTip = "订单已作出评价"
+                break
           }
         }
         this.orderList = data

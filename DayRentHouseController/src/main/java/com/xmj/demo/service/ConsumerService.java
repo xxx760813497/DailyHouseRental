@@ -148,4 +148,9 @@ public class ConsumerService {
     public Integer updateOrderStateById(Integer id,String orderState){
         return  orderMapper.updateOrderStateById(id,orderState);
     }
+
+    @Transactional
+    public Integer updateUserPassword(Integer id,String password){
+        return userMapper.updateUserPassword(id,password);
+    }
 }

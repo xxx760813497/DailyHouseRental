@@ -42,4 +42,8 @@
     <update id="updateUserStatus">
         UPDATE t_user SET status =#{arg1} where id=#{arg0}
     </update>
+
+    <update id="updateUserPassword">
+        UPDATE t_user SET password=#{arg1} where id=#{arg0}
+    </update>
 </mapper>

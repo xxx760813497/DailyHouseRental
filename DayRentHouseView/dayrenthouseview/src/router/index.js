@@ -33,6 +33,7 @@ const routes = [
   { path: '/masterStore', component: MasterStore },
   { path: '/addHouse', component: AddHouse },
 
+
   { path: '/adminHome', component: AdminHome },
   { path: '/adminHouseDetail', component: AdminHouseDetail },
 

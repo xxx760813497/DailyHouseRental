@@ -12,17 +12,18 @@
 <script>
 import ConsumerRent from '@/components/consumer/ConsumerRent.vue'
 import ConsumerOrderList from '@/components/consumer/ConsumerOrderList.vue'
+import MasterMyself from '@/components/master/MasterMyself.vue'
 export default {
   data() {
     return {
-      itemIndex:1,
-      currentItem:'consumerOrderList'
+      itemIndex:0,
+      currentItem:'consumerRent'
     }
   },
   components:{
       consumerRent:ConsumerRent,
-      ConsumerOrderList:ConsumerOrderList
-
+      ConsumerOrderList:ConsumerOrderList,
+      masterMyself:MasterMyself
   },
   
 
