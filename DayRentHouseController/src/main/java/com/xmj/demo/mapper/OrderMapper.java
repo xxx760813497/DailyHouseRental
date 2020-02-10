@@ -17,4 +17,7 @@ public interface OrderMapper {
 
     Integer updateOrderStateById(Integer id,String orderState);
     Integer deleteOrderById(Integer id);
+
+    Order getOrderById(Integer id);
+
 }

@@ -23,11 +23,8 @@
         </van-col>
       </van-row>
       <van-row>
-        <van-col span="5" offset="14" >
-          <van-button size="small" @click="getHouseDetail(house.id)">查看详情</van-button>
-        </van-col>
-        <van-col span="5"  >
-          <van-button size="small" @click="getHouseDetail(house.id)">同意发布</van-button>
+        <van-col style="margin-top:1.5%" span="5" offset="19" >
+          <van-button size="small" @click="getHouseDetail(house.id)">审核房屋</van-button>
         </van-col>
       </van-row>
     </div>

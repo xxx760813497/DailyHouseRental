@@ -11,11 +11,11 @@
         </span>
       </van-row>
       <div class="searchDiv" style="margin-top:5%">
-        <van-row type="flex" justify="center" style="padding-top:3%">
+        <!-- <van-row type="flex" justify="center" style="padding-top:3%">
           <van-col span="18" style="border-bottom: 1px solid #ffb90f;">
             <van-field value="泉州" label="城市" left-icon="bar-chart-o" />
           </van-col>
-        </van-row>
+        </van-row> -->
         <van-row type="flex" justify="center">
           <van-col span="20" style="border-bottom: 1px solid #ffb90f;">
             <van-field v-model="selectForm.date" placeholder="点击选择入住时间" label="入住时间" left-icon="notes-o" @click="dateSecltPopShow=true" />
@@ -86,7 +86,7 @@
       </van-row>
 
       <van-row v-show="loadingShow" type="flex" justify="center" style="margin-top:10%">
-        <van-loading vertical type="spinner" color="#1989fa" size="50">正在查找附近的房屋</van-loading>
+        <van-loading vertical type="spinner" color="#1989fa" size="30">正在查找附近的房屋</van-loading>
       </van-row>
 
       <div v-for="(house,index) in nearHousesList" :key="index" style="margin-top:5%">
@@ -94,7 +94,7 @@
           <van-col span="8">
             <van-image fit="fill" width="120" height="140" :src="getImg(house.houseTitleImg)" />
           </van-col>
-          <van-col span="15" offset="1">
+          <van-col span="15" offset="1" style="font-size:14px">
             <span>房名：{{house.name}}</span>
             <br />
             <span>地址：{{house.location}}</span>
@@ -315,6 +315,7 @@ export default {
 
 <style scoped>
 .searchDiv {
+  padding-top:5%;
   width: 90%;
   margin-left: 5%;
   border: 1px solid #ffb90f;

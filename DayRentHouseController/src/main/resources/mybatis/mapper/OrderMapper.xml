@@ -53,7 +53,7 @@
     <select id="getOrderById" resultMap="OrderMap" parameterType="java.lang.Integer">
         select
         <include refid="OrderColumnList"/>
-          where id=#{id}
+        from t_order  where id=#{id}
     </select>
     
     <select id="getOrderByUserId" resultMap="OrderMap" parameterType="java.lang.Integer">

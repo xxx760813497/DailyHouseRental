@@ -13,17 +13,18 @@
         <result column="creatTime" property="creatTime" jdbcType="VARCHAR" />
         <result column="imgs" property="imgs" jdbcType="VARCHAR" />
         <result column="fraction" property="fraction" jdbcType="DOUBLE" />
+        <result column="appeal" property="appeal" jdbcType="VARCHAR" />
     </resultMap>
 
     <sql id="CommentaryColumnList">
-        id,userId,houseId,content,creatTime,imgs,fraction,isRead,reply
+        id,userId,houseId,orderId,content,creatTime,imgs,fraction,isRead,reply,appeal,appealStatus
     </sql>
 
     <insert id="addCommentary">
         insert into t_commentary
-          (userId,houseId,content,creatTime,imgs,fraction,isread)
+          (userId,houseId,orderId,content,creatTime,imgs,fraction,isread)
         VALUE
-          (#{arg0},#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},"no")
+          (#{arg0},#{arg1},#{arg2},#{arg3},#{arg4},#{arg5},#{arg6},"no")
     </insert>
     
     <select id="getCommentaryById" resultMap="CommentaryMap" parameterType="java.lang.Integer">
@@ -57,5 +58,20 @@
     <update id="updateCommentaryReply">
         update t_commentary set `reply`=#{arg1},isread="yes" where id=#{arg0}
     </update>
+
+    <update id="updateCommentaryAppeal">
+        update t_commentary set `appeal`=#{arg1} where id=#{arg0}
+    </update>
+    
+    <select id="getRivewCommentaries" resultMap="CommentaryMap">
+        select
+        <include refid="CommentaryColumnList"/>
+        from t_commentary where  appeal  is not null and appealStatus is null
+    </select>
+
+    <update id="updateCommentaryStatus">
+        update t_commentary set `appealStatus`=#{arg1} where id=#{arg0}
+    </update>
+
 
 </mapper>

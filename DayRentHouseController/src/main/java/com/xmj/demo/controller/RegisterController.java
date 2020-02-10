@@ -3,6 +3,8 @@ package com.xmj.demo.controller;
 
 import com.xmj.demo.entity.User;
 import com.xmj.demo.mapper.UserMapper;
+import com.xmj.demo.redis.HouseRedis;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -14,6 +16,9 @@ public class RegisterController {
 
     @Resource
     private UserMapper userMapper;
+
+    @Autowired
+    HouseRedis houseRedis;
 
     @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
     public Map register(@RequestBody Map userInfo){
@@ -34,6 +39,7 @@ public class RegisterController {
         User user=new User();
         user.setPhonenum(phonenum);
         user.setPassword(password);
+
         int row=userMapper.insertNewUser(user);
 
         if (row>0){

@@ -48,7 +48,7 @@ public class CommentaryService {
         String currenDate=simpleDateFormat.format(date);
         double fraction=(interiorScore+masterScore+aroundScore)/3;
         fraction = new BigDecimal(fraction).setScale(2, RoundingMode.UP).doubleValue();
-        int row= commentaryMapper.addCommentary(userId,houseId,content,currenDate,imgs,fraction);
+        int row= commentaryMapper.addCommentary(userId,houseId,orderId,content,currenDate,imgs,fraction);
 
         if (row>0){
             return orderMapper.updateOrderStateById(orderId,"已评价");
@@ -76,5 +76,18 @@ public class CommentaryService {
     @Transactional
     public int updateCommentaryReply(Integer id,String content){
         return commentaryMapper.updateCommentaryReply(id,content);
+    }
+
+    @Transactional
+    public int updateCommentaryAppeal(Integer id,String content){
+        return commentaryMapper.updateCommentaryAppeal(id,content);
+    }
+
+    public ArrayList<Commentary> getRivewCommentaries(){
+        return commentaryMapper.getRivewCommentaries();
+    }
+
+    public int updateCommentaryStatus(Integer id,String status){
+        return commentaryMapper.updateCommentaryStatus(id,status);
     }
 }

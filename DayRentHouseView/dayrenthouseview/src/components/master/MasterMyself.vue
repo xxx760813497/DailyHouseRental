@@ -102,11 +102,12 @@ export default {
       this.$axios.post("/updateStatus", this.userStatus).then(response => {
         let data = response.data
         if (data.msg == "success") {
-          alert('切换成功')
+          alert('切换成功，请重新登录')
         } else {
           alert("未知异常")
         }
         this.userStateShow=false
+        this.$router.push("/login")
       })
     },
     clickConsumer() {
@@ -114,11 +115,12 @@ export default {
       this.$axios.post("/updateStatus", this.userStatus).then(response => {
         let data = response.data
         if (data.msg == "success") {
-          alert('切换成功')
+          alert('切换成功，请重新登录')
         } else {
           alert("未知异常")
         }
         this.userStateShow=false
+        this.$router.push("/login")
       })
     }
   },

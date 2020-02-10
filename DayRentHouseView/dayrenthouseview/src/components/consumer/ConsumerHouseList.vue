@@ -24,7 +24,7 @@
           <van-col span="8">
             <van-image fit="fill" width="120" height="140" :src="getImg(house.houseTitleImg)" />
           </van-col>
-          <van-col span="15" offset="1">
+          <van-col span="15" offset="1" style="font-size:15px">
             <span>房名：{{house.name}}</span>
             <br />
             <span>地址：{{house.location}}</span>
@@ -35,7 +35,7 @@
             <br />
             <span>评分：{{house.grade}}</span>
             <br />
-            <span>距离当前位置：{{house.distance/1000}}公里</span>
+            <!-- <span>距离当前位置：{{house.distance/1000}}公里</span> -->
           </van-col>
         </van-row>
       </div>

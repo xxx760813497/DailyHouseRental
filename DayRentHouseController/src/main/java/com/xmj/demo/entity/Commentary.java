@@ -4,12 +4,40 @@ public class Commentary {
     Integer id;
     Integer userId;
     Integer houseId;
+    Integer orderId;
     String content;
     String creatTime;
     String imgs;
     Double fraction;
     String isRead;
     String reply;
+    String appeal;
+    String appealStatus;
+
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getAppealStatus() {
+        return appealStatus;
+    }
+
+    public void setAppealStatus(String appealStatus) {
+        this.appealStatus = appealStatus;
+    }
+
+    public String getAppeal() {
+        return appeal;
+    }
+
+    public void setAppeal(String appeal) {
+        this.appeal = appeal;
+    }
 
     public String getIsRead() {
         return isRead;

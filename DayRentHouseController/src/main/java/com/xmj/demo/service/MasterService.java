@@ -6,8 +6,10 @@ import com.xmj.demo.mapper.CommentaryMapper;
 import com.xmj.demo.mapper.HouseMapper;
 import com.xmj.demo.mapper.OrderMapper;
 import com.xmj.demo.mapper.UserMapper;
+import com.xmj.demo.redis.HouseRedis;
 import com.xmj.demo.tools.StringTransform;
 import org.aspectj.weaver.ast.Or;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,10 +32,18 @@ public class MasterService {
     @Resource
     UserMapper userMapper;
 
-
+    @Autowired
+    HouseRedis houseRedis;
 
     public House getHouseById(Integer id){
-        House house=houseMapper.getHouseById(id);
+        //先在redis中查找，没有再缓存到redis中
+        House house=houseRedis.get(id.toString());
+        if (house==null){
+            house=houseMapper.getHouseById(id);
+            if (house!=null){
+                houseRedis.set(house.getId().toString(),30L,house);
+            }
+        }
         String userPhone=userMapper.getUserById(house.getUserId()).getPhonenum();
         house.setUserPhone(userPhone);
 
@@ -71,13 +81,15 @@ public class MasterService {
         }
 
         String equipments= StringTransform.stringsToString((ArrayList) houseInfo.get("equipmentsList"));
+        int row=houseMapper.updateHouseById(id,name,describe,price,equipments);
+        //修改成功删除redis中的过期缓存
+        if (row>0){
+            if (houseRedis.get(id.toString())!=null){
+                houseRedis.delete(id.toString());
+            }
+        }
 
-        System.out.println("处理后的数据：");
-        System.out.println("name:"+name);
-        System.out.println("describe:"+describe);
-        System.out.println("price:"+price);
-        System.out.println("equipments:"+equipments);
-        return houseMapper.updateHouseById(id,name,describe,price,equipments);
+        return row;
     }
 
     public ArrayList<House> getHousesByUserId(Integer userId){
@@ -94,11 +106,6 @@ public class MasterService {
         Integer price= Integer.valueOf((String) houseInfo.get("price"));
         String equipments= StringTransform.stringsToString((ArrayList) houseInfo.get("equipmentsList"));
 
-        System.out.println("处理后的数据：");
-        System.out.println("name:"+name);
-        System.out.println("describe:"+describe);
-        System.out.println("price:"+price);
-        System.out.println("equipments:"+equipments);
         return houseMapper.updateReapplyHouseById(id,name,describe,price,equipments);
     }
 

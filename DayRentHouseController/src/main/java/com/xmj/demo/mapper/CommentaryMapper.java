@@ -5,7 +5,7 @@ import com.xmj.demo.entity.Commentary;
 import java.util.ArrayList;
 
 public interface CommentaryMapper {
-    Integer addCommentary(Integer userId,Integer  houseId,String content,String creatTime,String imgs,Double fraction);
+    Integer addCommentary(Integer userId,Integer houseId,Integer orderId,String content,String creatTime,String imgs,Double fraction);
 
     Commentary getCommentaryById(Integer id);
 
@@ -18,4 +18,12 @@ public interface CommentaryMapper {
     int getNoReadCommentaryNumber(Integer houseId);
 
     int updateCommentaryReply(Integer id,String content);
+
+    int updateCommentaryAppeal(Integer id,String content);
+
+    ArrayList<Commentary> getRivewCommentaries();
+
+    int updateCommentaryStatus(Integer id,String status);
+
+    int deleteCommentaryById(Integer id);
 }

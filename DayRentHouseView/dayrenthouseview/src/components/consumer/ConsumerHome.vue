@@ -1,7 +1,7 @@
 <template>
   <div>
     <component :is="currentItem"></component>
-    <van-tabbar v-model="itemIndex" @change="onChange">
+    <van-tabbar v-model="itemIndex" @change="onChange" >
       <van-tabbar-item icon="home-o">租房</van-tabbar-item>
       <van-tabbar-item icon="search">订单</van-tabbar-item>
       <van-tabbar-item icon="friends-o">我的</van-tabbar-item>

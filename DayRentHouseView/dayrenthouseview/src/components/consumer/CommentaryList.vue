@@ -36,12 +36,40 @@
         </van-col>
       </van-row>
 
-      <van-row v-if="isMaster&&commentary.isRead=='no'" style="margin-top:2%">
-        <van-col offset="18">
+      <van-row v-if="isMaster" style="margin-top:2%">
+        <van-col v-if="commentary.appeal==null" offset="13">
+          <van-button plain type="warning" size="small" @click="clickAppealShow(commentary.id)">申诉</van-button>
+        </van-col>
+        <van-col v-if="commentary.appeal!=null&&commentary.appealStatus==null" offset="13">
+          <van-button plain type="warning" size="small">已申诉</van-button>
+        </van-col>
+
+        <van-col v-if="commentary.appeal!=null&&commentary.appealStatus=='申诉无效'" offset="13">
+          <van-button plain type="warning" size="small">申诉无效</van-button>
+        </van-col>
+
+        <van-col v-if="commentary.isRead=='no'" offset="1">
           <van-button plain type="primary" size="small" @click="clickShowReply(commentary.id)">回复</van-button>
         </van-col>
       </van-row>
       <van-divider />
+
+      <van-popup closeable v-model="appealShow" position="bottom" :style="{ height: '30%' }">
+        <van-row style="margin-top:4%">
+          <van-field
+            v-model="appealInfo.content"
+            rows="5"
+            label="申诉内容："
+            type="textarea"
+            placeholder="该评价不属实？发送申诉信息给管理员"
+          />
+        </van-row>
+        <van-row>
+          <van-col offset="20">
+            <van-button size="small" plain type="primary" @click="clickAppeal">发送</van-button>
+          </van-col>
+        </van-row>
+      </van-popup>
 
       <van-popup closeable v-model="replyShow" position="bottom" :style="{ height: '30%' }">
         <van-row style="margin-top:4%">
@@ -70,6 +98,11 @@ export default {
       houseId: -1,
       comentaryList: [],
       isMaster: false,
+      appealShow: false,
+      appealInfo: {
+        commentaryId: -1,
+        content: ""
+      },
       replyShow: false,
       replyInfo: {
         commentaryId: -1,
@@ -99,14 +132,13 @@ export default {
         this.comentaryList = data
       })
 
-      this.$axios.get("/getUserState").then(response => {
+      this.$axios.get("/getUserState/" + this.houseId).then(response => {
         let data = response.data
         if (data == "master") {
           this.isMaster = true
         }
       })
     },
-
     transforImgs(imgs) {
       let houseImgs = imgs.split(",")
       for (let imgPath in houseImgs) {
@@ -120,6 +152,33 @@ export default {
     },
     clickBack() {
       this.$router.go(-1) //返回上一层
+    },
+    clickAppealShow(id) {
+      this.appealInfo.content = ""
+      this.appealInfo.commentaryId = id
+      this.appealShow = true
+    },
+    clickAppeal() {
+      if (this.appealInfo.commentaryId < 0) {
+        alert("系统异常")
+        return
+      }
+      if (this.appealInfo.content == "" || this.appealInfo.content.length == 0) {
+        alert("请输入申诉内容")
+        return
+      }
+      this.$axios
+        .post("/updateCommentaryAppeal", this.appealInfo)
+        .then(response => {
+          let data = response.data
+          if (data == "success") {
+            alert("申诉成功，等待管理员处理")
+          }else{
+            alert("操作异常")
+          }
+          this.getCommentary()
+          this.appealShow = false
+        })
     },
     clickShowReply(id) {
       this.replyInfo.content = ""
@@ -142,9 +201,9 @@ export default {
         .then(response => {
           let data = response.data
           if (data == "success") {
-            this.replyShow=false
+            this.replyShow = false
             alert("回复成功")
-            this.getCommentary() 
+            this.getCommentary()
           } else {
             alert("系统异常")
           }

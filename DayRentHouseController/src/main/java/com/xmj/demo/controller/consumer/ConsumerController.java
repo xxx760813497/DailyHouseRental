@@ -100,7 +100,8 @@ public class ConsumerController {
             result.put("creatTime",commentary.getCreatTime());
             result.put("reply",commentary.getReply());
             result.put("isRead",commentary.getIsRead());
-
+            result.put("appeal",commentary.getAppeal());
+            result.put("appealStatus",commentary.getAppealStatus());
             if (commentary.getImgs().indexOf(",")!=-1){
                 result.put("imgs",commentary.getImgs());
             }else {

@@ -1,5 +1,6 @@
 package com.xmj.demo.controller.master;
 
+import com.xmj.demo.entity.House;
 import com.xmj.demo.entity.User;
 import com.xmj.demo.service.CommentaryService;
 import com.xmj.demo.service.MasterService;
@@ -45,11 +46,16 @@ public class MasterController {
     }
 
 
-    @GetMapping("/getUserState")
-    public String getUserState(HttpSession session){
+    @GetMapping("/getUserState/{id}")
+    public String getUserState(@PathVariable("id") Integer id,HttpSession session){
         if (session.getAttribute("user")!=null){
             User user= (User) session.getAttribute("user");
-            return user.getStatus();
+            House house=masterService.getHouseById(id);
+            if (house.getUserId().equals(user.getId())){
+                return "master";
+            }else {
+                return "noMaster";
+            }
         }else {
             return "noLogin";
         }
@@ -61,6 +67,20 @@ public class MasterController {
         String content= (String) info.get("content");
 
         int row=commentaryService.updateCommentaryReply(commentaryId,content);
+
+        if (row>0){
+            return "success";
+        }else {
+            return "error";
+        }
+    }
+
+    @PostMapping("/updateCommentaryAppeal")
+    public String updateCommentaryAppeal(@RequestBody Map info){
+        Integer commentaryId= (Integer) info.get("commentaryId");
+        String content= (String) info.get("content");
+
+        int row=commentaryService.updateCommentaryAppeal(commentaryId,content);
 
         if (row>0){
             return "success";

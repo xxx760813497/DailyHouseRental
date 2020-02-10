@@ -3,6 +3,7 @@ package com.xmj.demo.controller.master;
 
 import com.xmj.demo.entity.House;
 import com.xmj.demo.entity.User;
+import com.xmj.demo.redis.HouseRedis;
 import com.xmj.demo.service.CommentaryService;
 import com.xmj.demo.service.MasterService;
 import com.xmj.demo.tools.StringTransform;
@@ -24,10 +25,15 @@ public class HouseController {
     @Autowired
     CommentaryService commentaryService;
 
+    @Autowired
+    HouseRedis houseRedis;
+
     @GetMapping("/house/{id}")
     public House getHosueById(@PathVariable("id") Integer id){
+        
 
         House house=masterService.getHouseById(id);
+
 
         if (house!=null){
             return house;

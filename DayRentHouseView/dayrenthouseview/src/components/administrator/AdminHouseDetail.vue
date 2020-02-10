@@ -285,6 +285,7 @@ export default {
                       }else{
                         alert('系统异常，请重试')
                       }
+                      
                     })
         })
     },
@@ -305,6 +306,7 @@ export default {
                         alert('系统异常，请重试')
                         this.getHouseDitail()
                       }
+                      this.$router.push('/dminHome')
                     })
         })
     }
