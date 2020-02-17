@@ -67,19 +67,25 @@ public class ConsumerController {
     @GetMapping("/pionnerCommentary/{houseId}")
     public Map getPoinnerCommentary(@PathVariable ("houseId") Integer houseId){
         Commentary commentary=commentaryService.getPionnerCommentary(houseId);
-        User user=userMapper.getUserById(commentary.getUserId());
-        int commentaryNumber=commentaryService.getCommentaryNumber(houseId);
-        Map result=new HashMap();
-        String userPohone=user.getPhonenum().substring(0,3);
-        userPohone+="******";
-        userPohone+=user.getPhonenum().substring(9);
 
-        result.put("userPhone",userPohone);
-        result.put("content",commentary.getContent());
-        result.put("fraction",commentary.getFraction());
-        result.put("creatTime",commentary.getCreatTime());
-        result.put("commentaryNumber",commentaryNumber);
-        return result;
+        Map result=new HashMap();
+        if (commentary!=null){
+            int commentaryNumber=commentaryService.getCommentaryNumber(houseId);
+
+            User user=userMapper.getUserById(commentary.getUserId());
+            String userPohone=user.getPhonenum().substring(0,3);
+            userPohone+="******";
+            userPohone+=user.getPhonenum().substring(9);
+            result.put("userPhone",userPohone);
+            result.put("content",commentary.getContent());
+            result.put("fraction",commentary.getFraction());
+            result.put("creatTime",commentary.getCreatTime());
+            result.put("commentaryNumber",commentaryNumber);
+            return result;
+        }else {
+            result.put("commentaryNumber",0);
+            return result;
+        }
     }
 
     @GetMapping("/commentarys/{houseId}")

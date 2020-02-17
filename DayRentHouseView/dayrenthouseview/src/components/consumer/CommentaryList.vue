@@ -130,6 +130,9 @@ export default {
           }
         }
         this.comentaryList = data
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
 
       this.$axios.get("/getUserState/" + this.houseId).then(response => {
@@ -137,6 +140,9 @@ export default {
         if (data == "master") {
           this.isMaster = true
         }
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     transforImgs(imgs) {
@@ -178,7 +184,10 @@ export default {
           }
           this.getCommentary()
           this.appealShow = false
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     clickShowReply(id) {
       this.replyInfo.content = ""
@@ -207,7 +216,10 @@ export default {
           } else {
             alert("系统异常")
           }
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     }
   },
   created() {

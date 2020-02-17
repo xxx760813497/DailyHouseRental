@@ -1,0 +1,39 @@
+1.未登录用户权限
+@PostMapping("/login")			登录
+@PostMapping("/register")		注册
+
+0.公有权限
+@GetMapping("/house/{id}")			获取房屋详情
+@GetMapping("/pionnerCommentary/{houseId}")	获取房屋第一个评论
+@GetMapping("/commentarys/{houseId}")		获取房屋的评论
+@PostMapping("/updatePassword")			修改自身的帐号密码
+@GetMapping("/userPhone")			获取屋主的电话
+
+1.屋主独有权限
+@PostMapping("/house") 			添加屋主房屋
+@PutMapping("/house")			修改屋主房屋
+@GetMapping("/houses")			获取屋主房屋列表
+@PostMapping("/reapplyHouse")		再次申请房屋
+@DeleteMapping("/house/{id}")		删除房屋
+@PostMapping("/houseTitleImg")		上传房屋首图
+@PostMapping("/deleteHouseImg")		删除房屋图片
+@PostMapping("/houseImgs")		上传房屋内部图片
+@GetMapping("/masterOrders")		获取屋主订单
+@PostMapping("/masterOrder")		修改屋主订单
+@GetMapping("/getUserState/{id}")	获取用户身份信息
+@PostMapping("/updateCommentaryReply")	添加评论回复
+@PostMapping("/updateCommentaryAppeal")	添加房屋申诉
+
+2.租客独有权限
+@PostMapping("/selectHouseByAddress") 	根据地址查询房屋
+@PostMapping("/consumerOrder")		添加租客的订单
+@DeleteMapping("/consumerOrder/{id}")	删除租客的订单
+@GetMapping("/consumerOrders")		获取租客的订单
+@PutMapping("/consumerOrder")		修改租客的订单
+
+
+3.管理员独有权限
+@GetMapping("/reviewHouses")		获取审核中的房屋
+@PutMapping("/reviewHouses")		修改审核中的房屋
+@GetMapping("/reviewCommentaries")	获取审核中的评论
+@PostMapping("/reviewCommentary")	修改审核中的评论

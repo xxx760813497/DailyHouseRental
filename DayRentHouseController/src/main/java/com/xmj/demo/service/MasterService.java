@@ -102,8 +102,14 @@ public class MasterService {
         Integer id= (Integer) houseInfo.get("id");
         String name= (String) houseInfo.get("name");
         String describe= (String) houseInfo.get("describe");
-        System.out.println(houseInfo.get("price").getClass());
-        Integer price= Integer.valueOf((String) houseInfo.get("price"));
+
+        Integer price;
+        if (houseInfo.get("price") instanceof Integer){
+            price= (Integer) houseInfo.get("price");
+        }else {
+            price= Integer.valueOf((String) houseInfo.get("price"));
+        }
+
         String equipments= StringTransform.stringsToString((ArrayList) houseInfo.get("equipmentsList"));
 
         return houseMapper.updateReapplyHouseById(id,name,describe,price,equipments);

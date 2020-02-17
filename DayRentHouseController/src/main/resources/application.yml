@@ -5,6 +5,9 @@ spring:
       max-file-size: 10MB
       #总数据的大小
       max-request-size: 100MB
+  mvc:
+    servlet:
+      load-on-startup: 100
   datasource:
 #   数据源基本配置
     username: root
@@ -48,6 +51,25 @@ mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   # 指定sql映射文件位置
   mapper-locations: classpath:mybatis/mapper/*.xml
-#  schema:
-#          - classpath:sql/house.sql
-#          - classpath:sql/user.sql
+securityconfig:
+  logoutsuccessurl: /nologin
+  permitall: /login,/register
+  deniedpage: /nologin
+  urlroles: /reviewHouses=admin;
+            /reviewCommentaries=admin;
+            /reviewCommentary=admin
+            /house/**=consumer,master,admin;
+            /pionnerCommentary/**=consumer,master,admin;
+            /commentarys/**=consumer,master,admin;
+            /updatePassword/**=consumer,master,admin;
+            /userPhone/**=consumer,master,admin;
+            /house=master;
+            /houses=master;
+            /reapplyHouse=master;
+            /houseTitleImg=master;
+            /deleteHouseImg=master;
+            /masterOrders=master;
+            /masterOrder=master;
+            /getUserState/**=master;
+            /updateCommentaryReply=master;
+            /updateCommentaryAppeal=master;

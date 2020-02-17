@@ -234,7 +234,10 @@ export default {
           } else {
             alert("系统异常")
           }
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     houseImgsUp(file) {
       let formData = new FormData()
@@ -247,7 +250,10 @@ export default {
         .then(response => {
           let data = response.data
           this.addHouseForm.imgList.push(data)
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     titleImgDelete() {
       let formData = new FormData()
@@ -255,6 +261,9 @@ export default {
 
       this.$axios.post("/deleteHouseImg", formData).then(response => {
         this.addHouseForm.titleImg = ""
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
       return false
     },
@@ -276,6 +285,9 @@ export default {
         } else {
           alert("系统异常")
         }
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     MapReady() {
@@ -387,7 +399,10 @@ export default {
                     }else{
                       alert('系统异常，发布失败')
                     }
-                  })
+                  }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     }
   }
 }

@@ -5,6 +5,7 @@ import com.xmj.demo.entity.User;
 import com.xmj.demo.mapper.UserMapper;
 import com.xmj.demo.redis.HouseRedis;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,10 +21,13 @@ public class RegisterController {
     @Autowired
     HouseRedis houseRedis;
 
-    @RequestMapping(value = "/register",method = RequestMethod.POST,produces = "application/json; charset=utf-8")
+    @PostMapping("/register")
     public Map register(@RequestBody Map userInfo){
+        System.out.println("接收到请求");
         String phonenum=(String) userInfo.get("phonenum");
-        String password=(String) userInfo.get("password");
+        String password2=(String) userInfo.get("password");
+        BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
+        String password=bCryptPasswordEncoder.encode(password2);
         Map result =new HashMap();
         if (phonenum==null||password==null||phonenum.length()==0||password.length()==0){
             result.put("msg","deficient");

@@ -10,16 +10,26 @@
         <result column="phonenum" property="phonenum" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="status" property="status" jdbcType="VARCHAR" />
+
+
+
+
     </resultMap>
 
     <sql id="UserColumnList">
-        id,phonenum,password,status
+        id,phonenum,password,status,role
     </sql>
 
     <select id="getUserById" parameterType="java.lang.Integer" resultType="com.xmj.demo.entity.User">
         SELECT
          <include refid="UserColumnList"/>
          FROM t_user WHERE id=#{id}
+    </select>
+
+    <select id="getUserByPhoneNum" parameterType="java.lang.String" resultType="com.xmj.demo.entity.User">
+        SELECT
+        <include refid="UserColumnList"/>
+        FROM t_user WHERE phonenum=#{phonenum}
     </select>
 
     <select id="selectUserPhonenum" parameterType="String" resultType="String">

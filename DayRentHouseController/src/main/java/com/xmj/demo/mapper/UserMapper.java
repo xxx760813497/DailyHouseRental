@@ -1,7 +1,9 @@
 package com.xmj.demo.mapper;
 
 import com.xmj.demo.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface UserMapper {
 
     User getUserById(Integer id);
@@ -16,5 +18,5 @@ public interface UserMapper {
 
     int updateUserPassword(Integer id,String password);
 
-
+    User getUserByPhoneNum(String phonenum);
 }

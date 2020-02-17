@@ -101,7 +101,10 @@ export default {
       
       this.housesList = data
 
-    })
+    }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     getHouseDetail(houseId){
       this.$router.push({path:'/adminHouseDetail',query:{id:houseId}})

@@ -419,6 +419,9 @@ export default {
           this.allNoCommentaryNumber+=this.housesList[i].noReadCommentaryNum
         }
         this.sendNoReadNum()
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     getHouseDetail(houseId) {
@@ -486,7 +489,10 @@ export default {
           if (data != "error") {
             this.titleUpdatePath = data.msg
           }
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     houseImgsUp(file) {
       let formData = new FormData()
@@ -499,7 +505,10 @@ export default {
         .then(response => {
           let data = response.data
           console.log("ok")
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     houseUpdateClick() {
       this.houseUpdateForm.id = this.houseDetail.id
@@ -537,6 +546,9 @@ export default {
           alert("系统异常，请重试")
         }
         this.houseUpdateShow = false
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     reapplyHouseDetail(index) {
@@ -618,6 +630,9 @@ export default {
           alert("系统异常，请重试")
         }
         this.houseUpdateShow = false
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     houseWithdraw(houseId) {
@@ -636,7 +651,10 @@ export default {
                           this.getHouseList()
                         }
                       })
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     sendNoReadNum(){
       this.$emit('func',this.allNoCommentaryNumber)

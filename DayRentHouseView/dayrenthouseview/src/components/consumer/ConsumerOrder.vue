@@ -114,7 +114,10 @@ export default {
                       alert('订单发出成功！等待屋主处理')
                       this.$router.push('/consumerHome')
                     }
-                  })
+                  }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     }
   },
   created() {

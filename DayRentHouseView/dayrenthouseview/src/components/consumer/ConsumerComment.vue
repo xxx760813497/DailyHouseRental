@@ -149,6 +149,9 @@ export default {
           alert('评价成功')
           this.$router.go(-1)
         }
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
 
     },
@@ -174,7 +177,10 @@ export default {
           } else {
             alert("系统异常，请重新上传")
           }
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     commentaryImgsDelete(file, name) {
       var index = name.index
@@ -193,6 +199,9 @@ export default {
           this.commentInfo.imgs = newImgList
         } else {
         }
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
   },

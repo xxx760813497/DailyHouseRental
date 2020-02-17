@@ -1,10 +1,12 @@
 package com.xmj.demo.mapper;
 
 import com.xmj.demo.entity.Order;
+import org.apache.ibatis.annotations.Mapper;
 import org.aspectj.weaver.ast.Or;
 
 import java.util.ArrayList;
 
+@Mapper
 public interface OrderMapper {
 
     int addOrder

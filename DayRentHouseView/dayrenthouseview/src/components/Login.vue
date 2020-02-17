@@ -19,7 +19,7 @@
               label-width="55"
               label="用户名"
               placeholder="请输入用户名" 
-              v-model="loginForm.phonenum"/>
+              v-model="loginForm.username"/>
             <van-field
               left-icon="star-o"
               label-width="55"
@@ -48,20 +48,23 @@ export default {
   data() {
     return {
       loginForm:{
-        phonenum:'',
+        username:'',
         password:''
       }
     }
   },
   methods: {
     clickLogin() {
-      this.$axios.post('/login',this.loginForm)
+      let formData=new FormData()
+      formData.append('username',this.loginForm.username)
+      formData.append('password',this.loginForm.password)
+      this.$axios.post('/login',formData)
                     .then(response=>{
                         let data=response.data
-                        if(data.msg=='success'){
+                        console.log(data)
+                        if(data.msg =='success'){
                           alert("登录成功")
                           window.sessionStorage.setItem('user',data.user)
-
                           switch(data.status){
                             case null:
                               this.$router.push("/firstLogin")
@@ -75,10 +78,8 @@ export default {
                             case 'administrator':
                               this.$router.push('/adminHome')
                           }
-                        }else if(data.msg='error'){
+                        }else {
                           alert('用户名或密码错误')
-                        }else if(data.msg='deficient'){
-                          alert('请将信息填写完整')
                         }
                     })
     },

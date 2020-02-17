@@ -18,6 +18,10 @@ Vue.use(BaiduMap, {
 
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs;
+Vue.prototype.isLogin = function(data){
+  this.$router.push("/login")
+  return
+}
 
 // axios 配置
 axios.defaults.withCredentials = true
@@ -25,6 +29,9 @@ axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 axios.defaults.baseURL = 'http://localhost:8080';
 Vue.config.productionTip = false
+
+
+
 
 new Vue({
   router,

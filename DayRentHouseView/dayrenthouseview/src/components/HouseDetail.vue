@@ -282,7 +282,8 @@ export default {
     },
     getHouseDitail() {
       this.houseId = this.$route.query.id
-      this.$axios.get("/house/" + this.houseId).then(response => {
+      this.$axios.get("/house/" + this.houseId)
+      .then(response => {
         let data = response.data
         if (data != null) {
           this.houseDitail.id = data.id
@@ -326,6 +327,10 @@ export default {
           alert("系统异常，请重试")
         }
       })
+      .catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
       this.$axios.get("/pionnerCommentary/"+this.houseId).then(response=>{
 
         let data=response.data
@@ -334,6 +339,9 @@ export default {
         this.commentary.content=data.content
         this.commentary.fraction=data.fraction
         this.commentary.creatTime=data.creatTime
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
 
     },

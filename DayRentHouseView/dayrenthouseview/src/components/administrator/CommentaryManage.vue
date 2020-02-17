@@ -81,12 +81,18 @@ export default {
     getCommentary() {
       this.$axios.get("/reviewCommentaries").then(response => {
         let data = response.data
+        if(data.msg=='noLogin'){
+          this.$router.push('/login')
+        }
         for (let i = 0; i < data.length; i++) {
           if (data[i].imgs.indexOf(",") != -1) {
             data[i].imgs = this.transforImgs(data[i].imgs)
           }
         }
         this.comentaryList = data
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     transforImgs(imgs) {
@@ -112,6 +118,9 @@ export default {
         .then(() => {
           this.$axios.delete("/reviewCommentary/"+commentaryId).then(response => {
             let data = response.data
+            if(data.msg=='noLogin'){
+          this.$router.push('/login')
+        }
             if(data=='success'){
               alert('操作成功')
             }else{
@@ -119,7 +128,10 @@ export default {
             }
             this.getCommentary()
           })
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
         .catch(() => {
           // on cancel
         })
@@ -143,7 +155,10 @@ export default {
             }
             this.getCommentary()
           })
-        })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
         .catch(() => {
           // on cancel
         })

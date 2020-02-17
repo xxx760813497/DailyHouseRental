@@ -167,7 +167,10 @@ export default {
             } else {
               alert("系统异常！")
             }
-          })
+          }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
         })
         .catch(() => {
           // on cancel
@@ -192,7 +195,10 @@ export default {
             } else {
               alert("系统异常！")
             }
-          })
+          }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
         })
         .catch(() => {
           // on cancel

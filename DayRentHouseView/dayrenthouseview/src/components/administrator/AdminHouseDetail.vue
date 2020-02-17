@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-row>
-      <van-nav-bar :title="houseDitail.name" left-text="返回" left-arrow  @click-left="clickBack"/>
+      <van-nav-bar :title="houseDitail.name" left-text="返回" left-arrow @click-left="clickBack" />
     </van-row>
 
     <van-row>
@@ -84,7 +84,6 @@
     </van-row>
     <van-divider />
 
-
     <van-row v-if="buttonShow" type="flex" justify="center">
       <van-col>
         <van-button type="primary" @click="clickAllow">申请通过</van-button>
@@ -110,8 +109,8 @@ export default {
         lat: 0
       },
       zoom: 15,
-      buttonShow:true,
-      resultTextShow:false,
+      buttonShow: true,
+      resultTextShow: false,
       houseDitail: {
         id: "",
         userId: "",
@@ -129,7 +128,7 @@ export default {
         allDate: [],
         DaysNumber: 0,
         expense: -1,
-        houseState:''
+        houseState: ""
         // rentedDate:[]
       },
       equipments: {
@@ -163,14 +162,15 @@ export default {
       let path = "@/assets/"
       return require("@/assets/" + img)
     },
-    clickBack(){
-      this.$router.push('/adminHome')
+    clickBack() {
+      this.$router.push("/adminHome")
     },
 
     getHouseDitail() {
       this.houseId = this.$route.query.id
       this.$axios.get("/house/" + this.houseId).then(response => {
         let data = response.data
+
         if (data != null) {
           this.houseDitail.id = data.id
           this.houseDitail.userId = data.userId
@@ -196,12 +196,17 @@ export default {
           this.houseDitail.grade = data.grade
           this.houseDitail.price = data.price
 
-          this.houseDitail.houseState=data.houseState
-          this.buttonShow=this.houseDitail.houseState =='审核中'?true:false
-          this.resultTextShow=this.houseDitail.houseState=='审核中'?false:true
+          this.houseDitail.houseState = data.houseState
+          this.buttonShow =
+            this.houseDitail.houseState == "审核中" ? true : false
+          this.resultTextShow =
+            this.houseDitail.houseState == "审核中" ? false : true
         } else {
           alert("系统异常，请重试")
         }
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     transforImgs(imgs) {
@@ -276,18 +281,27 @@ export default {
           message: "确认房屋信息真实，租客将会检索到该房屋的信息"
         })
         .then(() => {
-          this.$axios.put('/reviewHouses',{id:this.houseDitail.id,houseState:'审核通过'})
-                      .then(response => {
-                      let data=response.data
-                      if(data=='ok'){
-                        alert('房屋审核通过')
-                        this.getHouseDitail()
-                      }else{
-                        alert('系统异常，请重试')
-                      }
-                      
-                    })
-        })
+          this.$axios
+            .put("/reviewHouses", {
+              id: this.houseDitail.id,
+              houseState: "审核通过"
+            })
+            .then(response => {
+              let data = response.data
+              if (data.msg == "noLogin") {
+                this.$router.push("/login")
+              }
+              if (data == "ok") {
+                alert("房屋审核通过")
+                this.getHouseDitail()
+              } else {
+                alert("系统异常，请重试")
+              }
+            })
+        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     clickCancel() {
       this.$dialog
@@ -296,18 +310,24 @@ export default {
           message: "确认房屋信息不真实或者不合理，本次房屋发布请求撤回"
         })
         .then(() => {
-          this.$axios.put('/reviewHouses',{id:this.houseDitail.id,houseState:'审核未通过'})
-                      .then(response => {
-                      let data=response.data
-                      if(data=='ok'){
-                        alert('操作成功')
-                        
-                      }else{
-                        alert('系统异常，请重试')
-                        this.getHouseDitail()
-                      }
-                      this.$router.push('/dminHome')
-                    })
+          this.$axios
+            .put("/reviewHouses", {
+              id: this.houseDitail.id,
+              houseState: "审核未通过"
+            })
+            .then(response => {
+              let data = response.data
+              if (data.msg == "noLogin") {
+                this.$router.push("/login")
+              }
+              if (data == "ok") {
+                alert("操作成功")
+              } else {
+                alert("系统异常，请重试")
+                this.getHouseDitail()
+              }
+              this.$router.push("/dminHome")
+            })
         })
     }
   }

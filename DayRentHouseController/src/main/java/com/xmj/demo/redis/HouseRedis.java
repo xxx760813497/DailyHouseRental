@@ -2,7 +2,6 @@ package com.xmj.demo.redis;
 
 import com.google.gson.Gson;
 import com.xmj.demo.entity.House;
-import com.xmj.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,7 +23,7 @@ public class HouseRedis {
         Gson gson=new Gson();
         House house=null;
         String json=redisTemplate.opsForValue().get(key);
-        if (!json.equals("")){
+        if (json!=null&&!json.equals("")){
             house=gson.fromJson(json,House.class);
         }
         return house;

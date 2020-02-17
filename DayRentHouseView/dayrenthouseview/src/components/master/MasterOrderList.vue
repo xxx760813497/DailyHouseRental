@@ -135,7 +135,10 @@ export default {
       } else {
         alert("您当前没有订单，快去挑选自己喜爱的房屋吧！")
       }
-    })
+    }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     },
     clickOrderItem(houseId) {
       this.$router.push({ path: "/houseDetail", query: { id: houseId } })
@@ -157,7 +160,10 @@ export default {
                           }else{
                             alert('系统异常！')
                           }
-                        })
+                        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
         })
         .catch(() => {
           // on cancel
@@ -180,7 +186,10 @@ export default {
                           }else{
                             alert('系统异常！')
                           }
-                        })
+                        }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
         })
         .catch(() => {
           // on cancel

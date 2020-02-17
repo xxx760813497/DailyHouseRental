@@ -8,15 +8,28 @@
       </van-row>
 
       <van-popup v-model="dateSecltPopShow" round>
-          <inlineCalendar  mode="during" :minDate="new Date()" @change="dateOnChange" style="width:300px" />
-          <van-row  type="flex" justify="center">
-            <van-button type="default" @click="clickTimeOK">确认</van-button>
-          </van-row>
+        <inlineCalendar
+          mode="during"
+          :minDate="new Date()"
+          @change="dateOnChange"
+          style="width:300px"
+        />
+        <van-row type="flex" justify="center">
+          <van-button type="default" @click="clickTimeOK">确认</van-button>
+        </van-row>
       </van-popup>
 
-      <van-dropdown-menu  active-color="#ee0a24" style="margin-top:3%">
-        <van-dropdown-item @change="clickItem1" v-model="houseListDiv.value1" :options="houseListDiv.option1" />
-        <van-dropdown-item @change="clickItem2" v-model="houseListDiv.value2" :options="houseListDiv.option2" />
+      <van-dropdown-menu active-color="#ee0a24" style="margin-top:3%">
+        <van-dropdown-item
+          @change="clickItem1"
+          v-model="houseListDiv.value1"
+          :options="houseListDiv.option1"
+        />
+        <van-dropdown-item
+          @change="clickItem2"
+          v-model="houseListDiv.value2"
+          :options="houseListDiv.option2"
+        />
       </van-dropdown-menu>
 
       <div v-for="(house,index) in houseListDiv.houseList" :key="index">
@@ -47,23 +60,21 @@
 export default {
   data() {
     return {
-      dateSecltPopShow:false,
+      dateSecltPopShow: false,
       selectForm: {
         location: "",
         address: "",
         round: 10000,
-        date:"",
+        date: "",
         allDates: []
       },
       houseListDiv: {
         value1: 0,
         value2: 0,
         option1: [
-
           { text: "10km以内", value: 0 },
           { text: "5km以内", value: 1 },
           { text: "2km以内", value: 2 }
-          
         ],
         option2: [
           { text: "默认排序", value: 0 },
@@ -77,22 +88,32 @@ export default {
   computed: {},
   watch: {},
   methods: {
-
-    dateOnChange(date){
+    dateOnChange(date) {
       let selectDates = date.map(item => item.format("YYYY-MM-DD"))
-      if(selectDates.length>1){
-        this.selectForm.date=selectDates[0].substring(6)+'入住，'+selectDates[1].substring(6)+'离开'
-        this.selectForm.allDates=this.getAllDate(selectDates[0],selectDates[1]);
+      if (selectDates.length > 1) {
+        this.selectForm.date =
+          selectDates[0].substring(6) +
+          "入住，" +
+          selectDates[1].substring(6) +
+          "离开"
+        this.selectForm.allDates = this.getAllDate(
+          selectDates[0],
+          selectDates[1]
+        )
       }
     },
-    clickTimeOK(){
+    clickTimeOK() {
       this.$axios
-          .post("/selectHouseByAddress", this.selectForm)
-          .then(response => {
-            let data=response.data
-            this.houseListDiv.houseList=data
-            dateSecltPopShow=false
-          })
+        .post("/selectHouseByAddress", this.selectForm)
+        .then(response => {
+          let data = response.data
+          this.houseListDiv.houseList = data
+          dateSecltPopShow = false
+        })
+        .catch(err => {
+          console.log(err)
+          this.$router.push("/login")
+        })
     },
     getAllDate(begin, end) {
       var arr = []
@@ -126,90 +147,113 @@ export default {
       let path = "@/assets/"
       return require("@/assets/" + img)
     },
-    clickItem1(value){
-      switch(value){
+    clickItem1(value) {
+      switch (value) {
         case 0:
-          this.selectForm.round=10000
+          this.selectForm.round = 10000
           this.$axios
-          .post("/selectHouseByAddress", this.selectForm)
-          .then(response => {
-            let data=response.data
-            this.houseListDiv.houseList=data
-          })
+            .post("/selectHouseByAddress", this.selectForm)
+            .then(response => {
+              let data = response.data
+              this.houseListDiv.houseList = data
+            })
+            .catch(err => {
+              console.log(err)
+              this.$router.push("/login")
+            })
           break
         case 1:
-          this.selectForm.round=5000
+          this.selectForm.round = 5000
           this.$axios
-          .post("/selectHouseByAddress", this.selectForm)
-          .then(response => {
-            let data=response.data
-            this.houseListDiv.houseList=data
-          })
+            .post("/selectHouseByAddress", this.selectForm)
+            .then(response => {
+              let data = response.data
+              this.houseListDiv.houseList = data
+            })
+            .catch(err => {
+              console.log(err)
+              this.$router.push("/login")
+            })
           break
         case 2:
-          this.selectForm.round=2000
+          this.selectForm.round = 2000
           this.$axios
-          .post("/selectHouseByAddress", this.selectForm)
-          .then(response => {
-            let data=response.data
-            this.houseListDiv.houseList=data
-          })
+            .post("/selectHouseByAddress", this.selectForm)
+            .then(response => {
+              let data = response.data
+              this.houseListDiv.houseList = data
+            })
+            .catch(err => {
+              console.log(err)
+              this.$router.push("/login")
+            })
           break
         default:
-          alert('系统异常')
+          alert("系统异常")
           break
       }
-
-
-
     },
-    clickItem2(value){
-      
-      let tempMinList=[]
-      switch(value){
+    clickItem2(value) {
+      let tempMinList = []
+      switch (value) {
         case 0:
-          for(let i=0;i<this.houseListDiv.houseList.length;i++){
-            let tempmin=i
-            for(let j=i;j<this.houseListDiv.houseList.length;j++){
-                if(this.houseListDiv.houseList[j].distance<this.houseListDiv.houseList[i].distance){
-                  tempmin=j;
-                }
+          for (let i = 0; i < this.houseListDiv.houseList.length; i++) {
+            let tempmin = i
+            for (let j = i; j < this.houseListDiv.houseList.length; j++) {
+              if (
+                this.houseListDiv.houseList[j].distance <
+                this.houseListDiv.houseList[i].distance
+              ) {
+                tempmin = j
+              }
             }
-            let tempHouse=this.houseListDiv.houseList[i]
-            this.houseListDiv.houseList[i]=this.houseListDiv.houseList[tempmin]
-            this.houseListDiv.houseList[tempmin]=tempHouse
+            let tempHouse = this.houseListDiv.houseList[i]
+            this.houseListDiv.houseList[i] = this.houseListDiv.houseList[
+              tempmin
+            ]
+            this.houseListDiv.houseList[tempmin] = tempHouse
           }
           break
           break
         case 1:
-          for(let i=0;i<this.houseListDiv.houseList.length;i++){
-            let tempmin=i
-            for(let j=i;j<this.houseListDiv.houseList.length;j++){
-                if(this.houseListDiv.houseList[j].price<this.houseListDiv.houseList[i].price){
-                  tempmin=j;
-                }
+          for (let i = 0; i < this.houseListDiv.houseList.length; i++) {
+            let tempmin = i
+            for (let j = i; j < this.houseListDiv.houseList.length; j++) {
+              if (
+                this.houseListDiv.houseList[j].price <
+                this.houseListDiv.houseList[i].price
+              ) {
+                tempmin = j
+              }
             }
-            let tempHouse=this.houseListDiv.houseList[i]
-            this.houseListDiv.houseList[i]=this.houseListDiv.houseList[tempmin]
-            this.houseListDiv.houseList[tempmin]=tempHouse
+            let tempHouse = this.houseListDiv.houseList[i]
+            this.houseListDiv.houseList[i] = this.houseListDiv.houseList[
+              tempmin
+            ]
+            this.houseListDiv.houseList[tempmin] = tempHouse
           }
           break
         case 2:
-          let tempMaxList=[]
-          for(let i=0;i<this.houseListDiv.houseList.length;i++){
-            let tempmax=i
-            for(let j=i;j<this.houseListDiv.houseList.length;j++){
-                if(this.houseListDiv.houseList[j].price>this.houseListDiv.houseList[i].price){
-                  tempmax=j;
-                }
+          let tempMaxList = []
+          for (let i = 0; i < this.houseListDiv.houseList.length; i++) {
+            let tempmax = i
+            for (let j = i; j < this.houseListDiv.houseList.length; j++) {
+              if (
+                this.houseListDiv.houseList[j].price >
+                this.houseListDiv.houseList[i].price
+              ) {
+                tempmax = j
+              }
             }
-            let tempHouse=this.houseListDiv.houseList[i]
-            this.houseListDiv.houseList[i]=this.houseListDiv.houseList[tempmax]
-            this.houseListDiv.houseList[tempmax]=tempHouse
+            let tempHouse = this.houseListDiv.houseList[i]
+            this.houseListDiv.houseList[i] = this.houseListDiv.houseList[
+              tempmax
+            ]
+            this.houseListDiv.houseList[tempmax] = tempHouse
           }
           break
         default:
-          alert('异常数据')
+          alert("异常数据")
       }
     },
     getHouseDetail(houseId) {
@@ -217,32 +261,36 @@ export default {
     }
   },
   created() {
-      this.selectForm.address = this.$route.query.address
-      this.selectForm.date = this.$route.query.date
-      
-      let allDates0=this.$route.query.allDates
+    this.selectForm.address = this.$route.query.address
+    this.selectForm.date = this.$route.query.date
 
-        //这一步是因为在刷新时，vue-router会将只有一个元素的数组转换成字符串
-        //而后端只接收数组
-      if('string'==typeof(allDates0)){
-          this.selectForm.allDates.push(allDates0)
-      }else{
-          this.selectForm.allDates=allDates0
-      }
-      this.$axios
-          .post("/selectHouseByAddress", this.selectForm)
-          .then(response => {
-            let data=response.data
-            this.houseListDiv.houseList=data
-            this.selectHouseDivShow=false
-          })
-  },
+    let allDates0 = this.$route.query.allDates
+
+    //这一步是因为在刷新时，vue-router会将只有一个元素的数组转换成字符串
+    //而后端只接收数组
+    if ("string" == typeof allDates0) {
+      this.selectForm.allDates.push(allDates0)
+    } else {
+      this.selectForm.allDates = allDates0
+    }
+    this.$axios
+      .post("/selectHouseByAddress", this.selectForm)
+      .then(response => {
+        let data = response.data
+        this.houseListDiv.houseList = data
+        this.selectHouseDivShow = false
+      })
+      .catch(err => {
+        console.log(err)
+        this.$router.push("/login")
+      })
+  }
 }
 </script>
 
 <style  scoped>
-.timeDivClass{
-  padding-top:3%;
+.timeDivClass {
+  padding-top: 3%;
   height: 30px;
   border: 2px solid#EEDFCC;
   border-radius: 10px/10px;

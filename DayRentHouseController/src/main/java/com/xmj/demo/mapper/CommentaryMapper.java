@@ -1,9 +1,11 @@
 package com.xmj.demo.mapper;
 
 import com.xmj.demo.entity.Commentary;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 
+@Mapper
 public interface CommentaryMapper {
     Integer addCommentary(Integer userId,Integer houseId,Integer orderId,String content,String creatTime,String imgs,Double fraction);
 

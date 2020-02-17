@@ -2,10 +2,12 @@ package com.xmj.demo.mapper;
 
 import com.xmj.demo.entity.House;
 import com.xmj.demo.unitilEmitity.HouseInfo;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.ArrayList;
 import java.util.Map;
 
+@Mapper
 public interface HouseMapper {
 
     House getHouseById(Integer id);

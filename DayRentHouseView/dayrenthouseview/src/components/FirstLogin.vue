@@ -55,7 +55,10 @@ export default {
                         alert('未知异常')
                         this.$router.push('/login')
                       }
-                    })
+                    }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
       
     },
     clickConsumer() {
@@ -69,7 +72,10 @@ export default {
                         alert('未知异常')
                         this.$router.push('/login')
                       }
-                    })
+                    }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
     }
   }
 }

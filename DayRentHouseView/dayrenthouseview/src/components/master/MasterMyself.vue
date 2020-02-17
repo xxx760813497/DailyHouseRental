@@ -91,6 +91,9 @@ export default {
           alert("系统异常")
         }
         this.updatePasswordShow = false
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     clickUpdateStatusShow() {
@@ -108,6 +111,9 @@ export default {
         }
         this.userStateShow=false
         this.$router.push("/login")
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     },
     clickConsumer() {
@@ -121,6 +127,9 @@ export default {
         }
         this.userStateShow=false
         this.$router.push("/login")
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
       })
     }
   },
@@ -129,7 +138,13 @@ export default {
     this.$axios.get('/userPhone')
             .then(response=>{
                 this.userPhone=response.data
-            })
+            }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      }).catch(err=>{
+        console.log(err)
+        this.$router.push('/login')
+      })
   }
 }
 </script>
