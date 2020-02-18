@@ -58,7 +58,6 @@ public class SecurityUrlFilterInvocation implements FilterInvocationSecurityMeta
         }else {
             System.out.println("url-role为空");
         }
-        System.out.println("权限配置为："+map);
         return map;
 
     }

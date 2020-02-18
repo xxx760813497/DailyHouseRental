@@ -100,7 +100,7 @@ export default {
       return require("@/assets/" + img)
     },
     getOrders() {
-      this.$axios.get("/consumerOrders").then(response => {
+      this.$axios.get("/consumer/consumerOrders").then(response => {
         let data = response.data
         if (data != null) {
           for (let i = 0; i < data.length; i++) {
@@ -160,7 +160,7 @@ export default {
           message: "屋主在未接单之前，您可以撤回此订单，确定要继续吗？"
         })
         .then(() => {
-          this.$axios.delete("/consumerOrder/" + orderId).then(response => {
+          this.$axios.delete("/consumer/consumerOrder/" + orderId).then(response => {
             if (response.data == "success") {
               alert("撤回成功")
               this.getOrders()
@@ -188,7 +188,7 @@ export default {
           formData.orderId = orderId
           formData.orderState = "已入住"
 
-          this.$axios.put("/consumerOrder",formData).then(response => {
+          this.$axios.put("/consumer/consumerOrder",formData).then(response => {
             if (response.data == "success") {
               alert("操作成功")
               this.getOrders()

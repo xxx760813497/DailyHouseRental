@@ -1,5 +1,4 @@
-package com.xmj.demo.controller.consumer;
-
+package com.xmj.demo.controller;
 
 import com.xmj.demo.entity.Commentary;
 import com.xmj.demo.entity.House;
@@ -7,65 +6,37 @@ import com.xmj.demo.entity.User;
 import com.xmj.demo.mapper.UserMapper;
 import com.xmj.demo.service.CommentaryService;
 import com.xmj.demo.service.ConsumerService;
-import com.xmj.demo.tools.LatLonUtil;
+import com.xmj.demo.service.MasterService;
 import com.xmj.demo.tools.StringTransform;
-import com.xmj.demo.unitilEmitity.Point;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 @RestController
-public class ConsumerController {
-
+@RequestMapping("/all")
+public class PublicController {
     @Autowired
     ConsumerService consumerService;
 
     @Autowired
     CommentaryService commentaryService;
 
+    @Autowired
+    MasterService masterService;
+
     @Resource
     UserMapper userMapper;
 
-
-
-    @PostMapping("/selectHouseByAddress")
-    public ArrayList<House> selectHouseByAddress(@RequestBody Map info){
-        String address= (String) info.get("address");
-        int round= (int) info.get("round");
-        ArrayList<String> dates= (ArrayList<String>) info.get("allDates");
-        Point point=new Point(address);
-
-        ArrayList<House> houses=consumerService.selectHouseByAddress(point,round,dates);
-        for (House house:houses){
-            house.setHouseTitleImg(StringTransform.filePathOfView(house.getHouseTitleImg()));
-        }
-        System.out.println("最终返回结果条数："+houses.size());
-        return houses;
-    }
-
-    @PostMapping("/commentary")
-    public String addCommentary(@RequestBody Map info,HttpSession session){
-        User user= (User) session.getAttribute("user");
-        Integer userId=user.getId();
-        int row=commentaryService.addCommentary(info,userId);
-        if (row>0){
-            return "success";
-        }else {
-            return "faild";
-        }
-    }
-
     @GetMapping("/pionnerCommentary/{houseId}")
-    public Map getPoinnerCommentary(@PathVariable ("houseId") Integer houseId){
+    public Map getPoinnerCommentary(@PathVariable("houseId") Integer houseId){
         Commentary commentary=commentaryService.getPionnerCommentary(houseId);
 
         Map result=new HashMap();
@@ -118,22 +89,26 @@ public class ConsumerController {
         return results;
     }
 
-    @PostMapping("/updatePassword")
-    public String updatePassword(@RequestBody Map info,HttpSession session){
-        String password= (String) info.get("newPassword");
-        User user= (User) session.getAttribute("user");
-        Integer id=user.getId();
-        int row=consumerService.updateUserPassword(id,password);
-        if (row>0){
-            return "success";
-        }else {
-            return  "error";
-        }
-    }
-
     @GetMapping("/userPhone")
     public String getUserPhone(HttpSession session){
         User user= (User) session.getAttribute("user");
         return user.getPhonenum();
     }
+
+    @GetMapping("/house/{id}")
+    public House getHosueById(@PathVariable("id") Integer id){
+
+
+        House house=masterService.getHouseById(id);
+
+
+        if (house!=null){
+            return house;
+        }else {
+            return  null;
+        }
+    }
+
+
+
 }

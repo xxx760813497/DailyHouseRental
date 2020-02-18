@@ -412,7 +412,7 @@ export default {
       return require("@/assets/" + img)
     },
     getHouseList() {
-      this.$axios.get("/houses").then(response => {
+      this.$axios.get("/master/houses").then(response => {
         let data = response.data
         this.housesList = data
         for(let i=0;i<this.housesList.length;i++){
@@ -481,7 +481,7 @@ export default {
       formData.append("file", file.file)
 
       this.$axios
-        .post("/houseTitleImg", formData, {
+        .post("/master/houseTitleImg", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(response => {
@@ -499,7 +499,7 @@ export default {
       formData.append("file", file.file)
 
       this.$axios
-        .post("/houseImgs", formData, {
+        .post("/master/houseImgs", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(response => {
@@ -537,7 +537,7 @@ export default {
         }
       }
 
-      this.$axios.put("/house", this.houseUpdateForm).then(response => {
+      this.$axios.put("/master/house", this.houseUpdateForm).then(response => {
         let data = response.data
         if ((data.msg = "success")) {
           alert("修改成功")
@@ -620,7 +620,7 @@ export default {
         }
       }
 
-      this.$axios.post("/reapplyHouse", this.houseUpdateForm).then(response => {
+      this.$axios.post("/master/reapplyHouse", this.houseUpdateForm).then(response => {
         let data = response.data
         if ((data = "success")) {
           alert("申请成功")
@@ -639,11 +639,11 @@ export default {
       this.$dialog
         .confirm({
           title: "撤销申请",
-          message: "本操作将会导致本条房屋信息清空，确定要继续吗？"
+          message: "本操作将会导致本房屋从平台上消失，确定要继续吗？"
         })
         .then(() => {
           // on confirm
-          this.$axios.delete("/house/"+houseId)
+          this.$axios.delete("/master/house/"+houseId)
                       .then(response=>{
                         let data =response.data;
                         if(data=='success'){

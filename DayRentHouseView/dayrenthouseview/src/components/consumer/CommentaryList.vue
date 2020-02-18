@@ -122,7 +122,7 @@ export default {
     },
     getCommentary() {
       this.houseId = this.$route.query.houseId
-      this.$axios.get("/commentarys/" + this.houseId).then(response => {
+      this.$axios.get("/all/commentarys/" + this.houseId).then(response => {
         let data = response.data
         for (let i = 0; i < data.length; i++) {
           if (data[i].imgs.indexOf(",") != -1) {
@@ -135,7 +135,7 @@ export default {
         this.$router.push('/login')
       })
 
-      this.$axios.get("/getUserState/" + this.houseId).then(response => {
+      this.$axios.get("/user/getUserState/" + this.houseId).then(response => {
         let data = response.data
         if (data == "master") {
           this.isMaster = true
@@ -174,7 +174,7 @@ export default {
         return
       }
       this.$axios
-        .post("/updateCommentaryAppeal", this.appealInfo)
+        .post("/master/updateCommentaryAppeal", this.appealInfo)
         .then(response => {
           let data = response.data
           if (data == "success") {
@@ -206,7 +206,7 @@ export default {
       }
 
       this.$axios
-        .post("/updateCommentaryReply", this.replyInfo)
+        .post("/master/updateCommentaryReply", this.replyInfo)
         .then(response => {
           let data = response.data
           if (data == "success") {

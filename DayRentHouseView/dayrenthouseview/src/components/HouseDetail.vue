@@ -282,7 +282,7 @@ export default {
     },
     getHouseDitail() {
       this.houseId = this.$route.query.id
-      this.$axios.get("/house/" + this.houseId)
+      this.$axios.get("/all/house/" + this.houseId)
       .then(response => {
         let data = response.data
         if (data != null) {
@@ -331,7 +331,7 @@ export default {
         console.log(err)
         this.$router.push('/login')
       })
-      this.$axios.get("/pionnerCommentary/"+this.houseId).then(response=>{
+      this.$axios.get("/all/pionnerCommentary/"+this.houseId).then(response=>{
 
         let data=response.data
         this.commentary.commentaryNumber=data.commentaryNumber

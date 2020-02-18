@@ -224,7 +224,7 @@ export default {
       formData.append("file", file.file)
 
       this.$axios
-        .post("/houseTitleImg", formData, {
+        .post("/master/houseTitleImg", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(response => {
@@ -244,7 +244,7 @@ export default {
       formData.append("file", file.file)
 
       this.$axios
-        .post("/houseImgs", formData, {
+        .post("/master/houseImgs", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(response => {
@@ -259,7 +259,7 @@ export default {
       let formData = new FormData()
       formData.append("filePath", this.addHouseForm.titleImg)
 
-      this.$axios.post("/deleteHouseImg", formData).then(response => {
+      this.$axios.post("/master/deleteHouseImg", formData).then(response => {
         this.addHouseForm.titleImg = ""
       }).catch(err=>{
         console.log(err)
@@ -272,7 +272,7 @@ export default {
       let url = this.addHouseForm.imgList[index]
       let formData = new FormData()
       formData.append("filePath", url)
-      this.$axios.post("/deleteHouseImg", formData).then(response => {
+      this.$axios.post("/master/deleteHouseImg", formData).then(response => {
         if (response.data == "success") {
           let newImgList = new Array()
           for (let i = 0, j = 0; i < this.addHouseForm.imgList.length; i++) {
@@ -390,7 +390,7 @@ export default {
         }
       }
 
-      this.$axios.post("/house", this.addHouseForm)
+      this.$axios.post("/master/house", this.addHouseForm)
                   .then(response => {
                     let data = response.data
                     if(data.msg=='success'){

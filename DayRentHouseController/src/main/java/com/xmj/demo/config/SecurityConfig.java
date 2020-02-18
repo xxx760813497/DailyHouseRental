@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     SecurityUrlFilterInvocation securityUrlFilterInvocation;
 
     @Autowired
-    RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // loginPage就是登录的页面，因为这里是使用前后端用JSON交互，
                 // 所以当未登录时会发出一个nologin的请求
                 //同时配置了登录成功处理器和失败处理器
-                .and().formLogin().loginPage("/nologin").permitAll().failureHandler(loginFailureHandler).successHandler(loginSuccessHandler)
+                .and().formLogin().loginPage("/nologin").loginProcessingUrl("/login").permitAll().failureHandler(loginFailureHandler).successHandler(loginSuccessHandler)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
 
                 //登出成功后的页面，也是nologin请求
@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling()
                 .accessDeniedPage(securitySettings.getDeniedpage())
                 .accessDeniedHandler(authenticationAccessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .authenticationEntryPoint(myAuthenticationEntryPoint)
                 //这里方便测试关闭了csrf防御策略，同时开启了cors跨域访问
                 .and()
                 .csrf().disable().cors()

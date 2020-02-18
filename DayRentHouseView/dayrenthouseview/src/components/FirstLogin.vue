@@ -46,7 +46,7 @@ export default {
     clickMaster() {
       this.userStatus='master'
       console.log(this.userStatus)
-      this.$axios.post('/updateStatus',this.userStatus)
+      this.$axios.post('/user/updateStatus',this.userStatus)
                     .then(response=>{
                       let data=response.data
                       if(data.msg=='success'){
@@ -63,7 +63,7 @@ export default {
     },
     clickConsumer() {
       this.userStatus='consumer'
-      this.$axios.post('/updateStatus',this.userStatus)
+      this.$axios.post('/user/updateStatus',this.userStatus)
                     .then(response=>{
                       let data=response.data
                       if(data.msg=='success'){

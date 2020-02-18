@@ -4,6 +4,8 @@ import com.xmj.demo.entity.House;
 import com.xmj.demo.mapper.CommentaryMapper;
 import com.xmj.demo.mapper.HouseMapper;
 import com.xmj.demo.mapper.OrderMapper;
+import com.xmj.demo.redis.HouseRedis;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +24,9 @@ public class AdminService {
     @Resource
     CommentaryMapper commentaryMapper;
 
+    @Autowired
+    HouseRedis houseRedis;
+
     public ArrayList<House> getReviewHouses(){
         ArrayList<House> houses=houseMapper.getReviewingHouses();
         return houses;
@@ -30,7 +35,13 @@ public class AdminService {
     public int updateHouseStateById(Map houseInfo){
         Integer id= (Integer) houseInfo.get("id");
         String houseState= (String) houseInfo.get("houseState");
-        return houseMapper.updateHouseStateById(id,houseState);
+        int row=houseMapper.updateHouseStateById(id,houseState);
+        if (row>0){
+            if (houseRedis.get(id.toString())!=null){
+                houseRedis.delete(id.toString());
+            }
+        }
+        return  row;
     }
 
     public  int deleteCommentaryById(Integer id){

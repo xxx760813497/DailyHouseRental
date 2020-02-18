@@ -79,7 +79,7 @@ export default {
       return require("@/assets/" + img)
     },
     getCommentary() {
-      this.$axios.get("/reviewCommentaries").then(response => {
+      this.$axios.get("/admin/reviewCommentaries").then(response => {
         let data = response.data
         if(data.msg=='noLogin'){
           this.$router.push('/login')
@@ -116,7 +116,7 @@ export default {
           message: "本次操作将这条评论删除，确定要继续吗？"
         })
         .then(() => {
-          this.$axios.delete("/reviewCommentary/"+commentaryId).then(response => {
+          this.$axios.delete("/admin/reviewCommentary/"+commentaryId).then(response => {
             let data = response.data
             if(data.msg=='noLogin'){
           this.$router.push('/login')
@@ -146,7 +146,7 @@ export default {
           let commentaryInfo={}
           commentaryInfo.id=commentaryId
           commentaryInfo.status="申诉无效"
-          this.$axios.post("/reviewCommentary",commentaryInfo).then(response => {
+          this.$axios.post("/admin/reviewCommentary",commentaryInfo).then(response => {
             let data = response.data
             if(data=='success'){
               alert('操作成功')

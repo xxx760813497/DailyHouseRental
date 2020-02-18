@@ -9,34 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-@RestController
-public class CommentaryImgController {
+public class CommentaryImgUtil {
 
-    @PostMapping("/commentaryImg")
-    public String titleImgUpload (@RequestParam("file") MultipartFile file, HttpSession session){
-
-        if (file.isEmpty()){
-            return "error";
-        }
-        User user= (User) session.getAttribute("user");
-        Integer userId=user.getId();
-        String filePath=fileUpload(file,userId,"CommentaryImg");
-        System.out.println("上传路径："+filePath);
-        return  filePath;
-    }
-
-    @PostMapping("/deleteCommentaryImg")
-    public String deleteHouseTitleImg(@RequestParam("filePath") String filePath){
-        System.out.println("删除路径:"+filePath);
-        if (deleteFile(filePath)){
-            return "success";
-        }else {
-            return "error";
-        }
-    }
-
-
-    public String fileUpload(MultipartFile file, Integer userId, String fileName){
+    public static String fileUpload(MultipartFile file, Integer userId, String fileName){
         if (file.isEmpty()){
             return "error";
         }
@@ -61,8 +36,7 @@ public class CommentaryImgController {
 
 
 
-
-    public boolean deleteFile(String filePath){
+    public static boolean deleteFile(String filePath){
         File file=new File(filePath);
         if (file.exists()){
             return file.delete();

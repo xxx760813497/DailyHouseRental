@@ -13,49 +13,15 @@ import java.util.UUID;
 
 
 @RestController
-public class HouseImgController {
-
-    @PostMapping("/houseTitleImg")
-    public String titleImgUpload (@RequestParam("file") MultipartFile file, HttpSession session){
-
-        if (file.isEmpty()){
-            return "error";
-        }
-        User user= (User) session.getAttribute("user");
-        Integer userId=user.getId();
-        String filePath=fileUpload(file,userId,"HouseTileImg");
-        System.out.println(filePath);
-        return  filePath;
-    }
-
-    @PostMapping("/deleteHouseImg")
-    public String deleteHouseTitleImg(@RequestParam("filePath") String filePath){
-
-        System.out.println(filePath);
-        if (deleteFile(filePath)){
-            return "success";
-        }else {
-            return "error";
-        }
-    }
-
-    @PostMapping("/houseImgs")
-    public String imgsUpload(@RequestParam("file") MultipartFile file,HttpSession session){
-        if (file==null){
-            return "error";
-        }
-        User user= (User) session.getAttribute("user");
-        Integer userId=user.getId();
-
-        String filePath=fileUpload(file,userId,"HouseImgs");
-        return  filePath;
-    }
+public class HouseImgUtil {
 
 
 
 
 
-    public String fileUpload(MultipartFile file,Integer userId,String fileName){
+
+
+    public static String fileUpload(MultipartFile file,Integer userId,String fileName){
         if (file.isEmpty()){
             return "error";
         }
@@ -81,7 +47,7 @@ public class HouseImgController {
 
 
 
-    public boolean deleteFile(String filePath){
+    public static boolean deleteFile(String filePath){
         File file=new File(filePath);
         if (file.exists()){
             return file.delete();

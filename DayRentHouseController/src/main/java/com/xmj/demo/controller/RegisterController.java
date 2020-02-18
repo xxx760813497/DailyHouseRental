@@ -23,7 +23,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public Map register(@RequestBody Map userInfo){
-        System.out.println("接收到请求");
+        System.out.println("接收注册到请求");
         String phonenum=(String) userInfo.get("phonenum");
         String password2=(String) userInfo.get("password");
         BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();

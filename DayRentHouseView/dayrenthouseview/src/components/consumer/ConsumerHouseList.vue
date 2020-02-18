@@ -104,7 +104,7 @@ export default {
     },
     clickTimeOK() {
       this.$axios
-        .post("/selectHouseByAddress", this.selectForm)
+        .post("/consumer/selectHouseByAddress", this.selectForm)
         .then(response => {
           let data = response.data
           this.houseListDiv.houseList = data
@@ -152,7 +152,7 @@ export default {
         case 0:
           this.selectForm.round = 10000
           this.$axios
-            .post("/selectHouseByAddress", this.selectForm)
+            .post("/consumer/selectHouseByAddress", this.selectForm)
             .then(response => {
               let data = response.data
               this.houseListDiv.houseList = data
@@ -165,7 +165,7 @@ export default {
         case 1:
           this.selectForm.round = 5000
           this.$axios
-            .post("/selectHouseByAddress", this.selectForm)
+            .post("/consumer/selectHouseByAddress", this.selectForm)
             .then(response => {
               let data = response.data
               this.houseListDiv.houseList = data
@@ -178,7 +178,7 @@ export default {
         case 2:
           this.selectForm.round = 2000
           this.$axios
-            .post("/selectHouseByAddress", this.selectForm)
+            .post("/consumer/selectHouseByAddress", this.selectForm)
             .then(response => {
               let data = response.data
               this.houseListDiv.houseList = data
@@ -274,7 +274,7 @@ export default {
       this.selectForm.allDates = allDates0
     }
     this.$axios
-      .post("/selectHouseByAddress", this.selectForm)
+      .post("/consumer/selectHouseByAddress", this.selectForm)
       .then(response => {
         let data = response.data
         this.houseListDiv.houseList = data

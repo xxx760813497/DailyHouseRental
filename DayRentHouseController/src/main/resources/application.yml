@@ -55,21 +55,8 @@ securityconfig:
   logoutsuccessurl: /nologin
   permitall: /login,/register
   deniedpage: /nologin
-  urlroles: /reviewHouses=admin;
-            /reviewCommentaries=admin;
-            /reviewCommentary=admin
-            /house/**=consumer,master,admin;
-            /pionnerCommentary/**=consumer,master,admin;
-            /commentarys/**=consumer,master,admin;
-            /updatePassword/**=consumer,master,admin;
-            /userPhone/**=consumer,master,admin;
-            /house=master;
-            /houses=master;
-            /reapplyHouse=master;
-            /houseTitleImg=master;
-            /deleteHouseImg=master;
-            /masterOrders=master;
-            /masterOrder=master;
-            /getUserState/**=master;
-            /updateCommentaryReply=master;
-            /updateCommentaryAppeal=master;
+  urlroles: /admin/**=admin;
+            /consumer/**=consumer;
+            /master/**=master;
+            /user/**=consumer,master;
+            /all/**=consumer,master,admin

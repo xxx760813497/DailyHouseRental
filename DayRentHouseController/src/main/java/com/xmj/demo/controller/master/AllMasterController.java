@@ -1,6 +1,5 @@
 package com.xmj.demo.controller.master;
 
-
 import com.xmj.demo.entity.House;
 import com.xmj.demo.entity.User;
 import com.xmj.demo.redis.HouseRedis;
@@ -9,7 +8,7 @@ import com.xmj.demo.service.MasterService;
 import com.xmj.demo.tools.StringTransform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -17,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class HouseController {
-
+@RequestMapping("/master")
+public class AllMasterController {
     @Autowired
     MasterService masterService;
 
@@ -27,20 +26,6 @@ public class HouseController {
 
     @Autowired
     HouseRedis houseRedis;
-
-    @GetMapping("/house/{id}")
-    public House getHosueById(@PathVariable("id") Integer id){
-        
-
-        House house=masterService.getHouseById(id);
-
-
-        if (house!=null){
-            return house;
-        }else {
-            return  null;
-        }
-    }
 
     @PostMapping("/house")
     public Map addHouse(@RequestBody Map houseInfo, HttpSession session){
@@ -53,7 +38,7 @@ public class HouseController {
         if (row>0){
             result.put("msg","success");
         }else {
-           result.put("msg","error");
+            result.put("msg","error");
             System.out.println("失败");
         }
         return result;
@@ -117,7 +102,7 @@ public class HouseController {
         if (row>0){
             return "success";
         }else {
-           return "error";
+            return "error";
         }
     }
 
@@ -135,6 +120,91 @@ public class HouseController {
 
     }
 
+    @PostMapping("/houseTitleImg")
+    public String titleImgUpload (@RequestParam("file") MultipartFile file, HttpSession session){
 
+        if (file.isEmpty()){
+            return "error";
+        }
+        User user= (User) session.getAttribute("user");
+        Integer userId=user.getId();
+        String filePath=HouseImgUtil.fileUpload(file,userId,"HouseTileImg");
+        System.out.println(filePath);
+        return  filePath;
+    }
+
+    @PostMapping("/deleteHouseImg")
+    public String deleteHouseTitleImg(@RequestParam("filePath") String filePath){
+        if (HouseImgUtil.deleteFile(filePath)){
+            return "success";
+        }else {
+            return "error";
+        }
+    }
+
+    @PostMapping("/houseImgs")
+    public String imgsUpload(@RequestParam("file") MultipartFile file,HttpSession session){
+        if (file==null){
+            return "error";
+        }
+        User user= (User) session.getAttribute("user");
+        Integer userId=user.getId();
+
+        String filePath=HouseImgUtil.fileUpload(file,userId,"HouseImgs");
+        return  filePath;
+    }
+
+    @GetMapping("/masterOrders")
+    public ArrayList<Map> getMasterOrders(HttpSession session){
+        User user= (User) session.getAttribute("user");
+        Integer id=user.getId();
+        ArrayList<Map> result=masterService.getOrderByUserId(id);
+        if (result.size()>0){
+            return result;
+        }else {
+            return null;
+        }
+    }
+
+    @PostMapping("/masterOrder")
+    public String updateOrderState(@RequestBody Map info){
+
+        Integer id= (Integer) info.get("orderId");
+        String orderState= (String) info.get("orderState");
+        int row=masterService.updateOrderStateById(id,orderState);
+        if (row>0){
+            return "success";
+        }else {
+            return "failed";
+        }
+    }
+
+    @PostMapping("/updateCommentaryReply")
+    public String updateCommentaryReply(@RequestBody Map info){
+        Integer commentaryId= (Integer) info.get("commentaryId");
+        String content= (String) info.get("content");
+
+        int row=commentaryService.updateCommentaryReply(commentaryId,content);
+
+        if (row>0){
+            return "success";
+        }else {
+            return "error";
+        }
+    }
+
+    @PostMapping("/updateCommentaryAppeal")
+    public String updateCommentaryAppeal(@RequestBody Map info){
+        Integer commentaryId= (Integer) info.get("commentaryId");
+        String content= (String) info.get("content");
+
+        int row=commentaryService.updateCommentaryAppeal(commentaryId,content);
+
+        if (row>0){
+            return "success";
+        }else {
+            return "error";
+        }
+    }
 
 }

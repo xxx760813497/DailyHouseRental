@@ -96,7 +96,7 @@ export default {
       return require("@/assets/" + img)
     },
     getHouseList(){
-      this.$axios.get("/reviewHouses").then(response => {
+      this.$axios.get("/admin/reviewHouses").then(response => {
       let data = response.data
       
       this.housesList = data

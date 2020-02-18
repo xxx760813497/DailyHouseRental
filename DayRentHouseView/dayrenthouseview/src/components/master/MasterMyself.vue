@@ -83,7 +83,7 @@ export default {
         alert("两次输入密码不一致")
         return
       }
-      this.$axios.post("/updatePassword", this.updatePwdInfo).then(response => {
+      this.$axios.post("/user/updatePassword", this.updatePwdInfo).then(response => {
         let data = response.data
         if (data == "success") {
           alert("修改成功")
@@ -102,7 +102,7 @@ export default {
     },
     clickMaster() {
       this.userStatus = "master"
-      this.$axios.post("/updateStatus", this.userStatus).then(response => {
+      this.$axios.post("/user/updateStatus", this.userStatus).then(response => {
         let data = response.data
         if (data.msg == "success") {
           alert('切换成功，请重新登录')
@@ -118,7 +118,7 @@ export default {
     },
     clickConsumer() {
       this.userStatus = "consumer"
-      this.$axios.post("/updateStatus", this.userStatus).then(response => {
+      this.$axios.post("/user/updateStatus", this.userStatus).then(response => {
         let data = response.data
         if (data.msg == "success") {
           alert('切换成功，请重新登录')
@@ -135,7 +135,7 @@ export default {
   },
   created() {
     this.timeTip = this.getTimeTip()
-    this.$axios.get('/userPhone')
+    this.$axios.get('/all/userPhone')
             .then(response=>{
                 this.userPhone=response.data
             }).catch(err=>{

@@ -111,13 +111,25 @@ public class MasterService {
         }
 
         String equipments= StringTransform.stringsToString((ArrayList) houseInfo.get("equipmentsList"));
-
-        return houseMapper.updateReapplyHouseById(id,name,describe,price,equipments);
+        int row=houseMapper.updateReapplyHouseById(id,name,describe,price,equipments);
+        if (row>0){
+            if (houseRedis.get(id.toString())!=null){
+                houseRedis.delete(id.toString());
+            }
+        }
+        return  row;
     }
 
     @Transactional
     public int deleteHouseById(Integer id){
-        return houseMapper.deleteHouseById(id);
+
+        int row=houseMapper.deleteHouseById(id);
+        if (row>0){
+            if (houseRedis.get(id.toString())!=null){
+                houseRedis.delete(id.toString());
+            }
+        }
+        return row;
     }
 
     public ArrayList<Map> getOrderByUserId(Integer userId) {

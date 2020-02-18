@@ -86,7 +86,7 @@ export default {
       return require("@/assets/" + img)
     },
     getOrders(){
-    this.$axios.get("/masterOrders").then(response => {
+    this.$axios.get("/master/masterOrders").then(response => {
       let data = response.data
       if (data != null) {
         for (let i = 0; i < data.length; i++) {
@@ -152,7 +152,7 @@ export default {
           let formData={}
           formData.orderId=orderId
           formData.orderState='已接单'
-          this.$axios.post('/masterOrder',formData)
+          this.$axios.post('/master/masterOrder',formData)
                         .then(response=>{
                           if(response.data=='success'){
                             alert('接单成功')
@@ -178,7 +178,7 @@ export default {
           let formData={}
           formData.orderId=orderId
           formData.orderState='已拒绝'
-          this.$axios.post('/masterOrder',formData)
+          this.$axios.post('/master/masterOrder',formData)
                         .then(response=>{
                           if(response.data=='success'){
                             alert('拒绝成功')

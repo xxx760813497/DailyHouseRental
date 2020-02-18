@@ -143,7 +143,7 @@ export default {
         return
       }
 
-      this.$axios.post("/commentary", this.commentInfo).then(response => {
+      this.$axios.post("/consumer/commentary", this.commentInfo).then(response => {
         let data=response.data
         if(data=='success'){
           alert('评价成功')
@@ -167,7 +167,7 @@ export default {
       formData.append("file", file.file)
 
       this.$axios
-        .post("/commentaryImg", formData, {
+        .post("/consumer/commentaryImg", formData, {
           headers: { "Content-Type": "multipart/form-data" }
         })
         .then(response => {
@@ -187,7 +187,7 @@ export default {
       let url = this.commentInfo.imgs[index]
       let formData = new FormData()
       formData.append("filePath", url)
-      this.$axios.post("/deleteCommentaryImg", formData).then(response => {
+      this.$axios.post("/consumer/deleteCommentaryImg", formData).then(response => {
         if (response.data == "success") {
           let newImgList = new Array()
           for (let i = 0, j = 0; i < this.commentInfo.imgs.length; i++) {

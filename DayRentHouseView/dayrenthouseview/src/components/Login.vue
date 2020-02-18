@@ -61,7 +61,6 @@ export default {
       this.$axios.post('/login',formData)
                     .then(response=>{
                         let data=response.data
-                        console.log(data)
                         if(data.msg =='success'){
                           alert("登录成功")
                           window.sessionStorage.setItem('user',data.user)
@@ -75,7 +74,7 @@ export default {
                             case 'master':
                               this.$router.push('/masterHome')
                               break
-                            case 'administrator':
+                            case 'admin':
                               this.$router.push('/adminHome')
                           }
                         }else {

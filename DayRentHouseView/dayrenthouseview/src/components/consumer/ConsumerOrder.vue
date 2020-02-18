@@ -107,7 +107,7 @@ export default {
       }
 
       this.orderInfo.houseId=this.houseDetail.id
-      this.$axios.post("/consumerOrder", this.orderInfo)
+      this.$axios.post("/consumer/consumerOrder", this.orderInfo)
                   .then(response => {
                     let data=response.data
                     if(data=='ok'){

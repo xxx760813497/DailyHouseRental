@@ -293,7 +293,7 @@ export default {
           let date=year+"-"+mon+"-"+day
           this.currentForm.allDates.push(date)
           this.$axios
-            .post("/selectHouseByAddress", this.currentForm)
+            .post("/consumer/selectHouseByAddress", this.currentForm)
             .then(response => {
               this.loadingShow = false
               this.nearHousesList = response.data

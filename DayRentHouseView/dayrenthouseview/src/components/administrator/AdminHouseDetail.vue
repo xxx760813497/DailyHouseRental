@@ -168,7 +168,7 @@ export default {
 
     getHouseDitail() {
       this.houseId = this.$route.query.id
-      this.$axios.get("/house/" + this.houseId).then(response => {
+      this.$axios.get("/all/house/" + this.houseId).then(response => {
         let data = response.data
 
         if (data != null) {
@@ -197,10 +197,10 @@ export default {
           this.houseDitail.price = data.price
 
           this.houseDitail.houseState = data.houseState
-          this.buttonShow =
-            this.houseDitail.houseState == "审核中" ? true : false
-          this.resultTextShow =
-            this.houseDitail.houseState == "审核中" ? false : true
+          
+
+          this.buttonShow =(this.houseDitail.houseState == "审核中")
+          this.resultTextShow =!this.buttonShow
         } else {
           alert("系统异常，请重试")
         }
@@ -282,7 +282,7 @@ export default {
         })
         .then(() => {
           this.$axios
-            .put("/reviewHouses", {
+            .put("/admin/reviewHouses", {
               id: this.houseDitail.id,
               houseState: "审核通过"
             })
@@ -293,7 +293,9 @@ export default {
               }
               if (data == "ok") {
                 alert("房屋审核通过")
+                
                 this.getHouseDitail()
+
               } else {
                 alert("系统异常，请重试")
               }
@@ -311,7 +313,7 @@ export default {
         })
         .then(() => {
           this.$axios
-            .put("/reviewHouses", {
+            .put("/admin/reviewHouses", {
               id: this.houseDitail.id,
               houseState: "审核未通过"
             })
@@ -322,11 +324,12 @@ export default {
               }
               if (data == "ok") {
                 alert("操作成功")
+                this.getHouseDitail()
               } else {
                 alert("系统异常，请重试")
-                this.getHouseDitail()
+                
               }
-              this.$router.push("/dminHome")
+              this.$router.push("/adminHome")
             })
         })
     }

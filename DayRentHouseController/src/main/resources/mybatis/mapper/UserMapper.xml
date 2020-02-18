@@ -44,13 +44,13 @@
 
     <insert id="insertNewUser" parameterType="com.xmj.demo.entity.User">
         INSERT INTO
-                t_user (phonenum,password)
+                t_user (phonenum,password,role)
                 VALUES
-                (#{phonenum},#{password})
+                (#{phonenum},#{password},"consumer")
     </insert>
     
     <update id="updateUserStatus">
-        UPDATE t_user SET status =#{arg1} where id=#{arg0}
+        UPDATE t_user SET status =#{arg1},role=#{arg1} where id=#{arg0}
     </update>
 
     <update id="updateUserPassword">
