@@ -57,6 +57,7 @@ securityconfig:
   deniedpage: /nologin
   urlroles: /admin/**=admin;
             /consumer/**=consumer;
+            /master/houses=consumer,master;
             /master/**=master;
             /user/**=consumer,master;
             /all/**=consumer,master,admin

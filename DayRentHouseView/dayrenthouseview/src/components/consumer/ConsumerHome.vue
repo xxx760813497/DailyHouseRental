@@ -5,6 +5,7 @@
       <van-tabbar-item icon="home-o">租房</van-tabbar-item>
       <van-tabbar-item icon="search">订单</van-tabbar-item>
       <van-tabbar-item icon="friends-o">我的</van-tabbar-item>
+      <van-tabbar-item icon="friends-o">聊天室</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -13,6 +14,7 @@
 import ConsumerRent from '@/components/consumer/ConsumerRent.vue'
 import ConsumerOrderList from '@/components/consumer/ConsumerOrderList.vue'
 import MasterMyself from '@/components/master/MasterMyself.vue'
+import ChatRoom from'@/components/ChatRoom.vue'
 export default {
   data() {
     return {
@@ -23,7 +25,8 @@ export default {
   components:{
       consumerRent:ConsumerRent,
       ConsumerOrderList:ConsumerOrderList,
-      masterMyself:MasterMyself
+      masterMyself:MasterMyself,
+      chatRoom:ChatRoom
   },
   
 
@@ -33,6 +36,7 @@ export default {
 
   methods: {
     onChange(index) {
+      console.log(index)
       switch(index){
         case 0:
           this.currentItem='consumerRent'
@@ -43,6 +47,8 @@ export default {
         case 2:
           this.currentItem='masterMyself'
           break
+        case 3:
+          this.currentItem='chatRoom'
       }
     }
   }

@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="607ebf8c-6768-4153-a2f8-bb9c5c941654" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/.eslintrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/assets/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/views/About.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/src/views/Home.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DayRentHouseController/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseController/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DayRentHouseController/src/main/java/com/xmj/demo/DemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseController/src/main/java/com/xmj/demo/DemoApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DayRentHouseController/src/main/java/com/xmj/demo/controller/NoLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DayRentHouseController/src/main/java/com/xmj/demo/controller/NoLoginController.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +22,13 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/node_modules" />
+  </component>
   <component name="NodePackageJsonFileManager">
-    <packageJsonPaths />
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/DayRentHouseView/dayrenthouseview/package.json" />
+    </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="373" />
@@ -44,6 +41,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -61,8 +60,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -127,6 +124,9 @@
       <listeners />
     </configuration>
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="607ebf8c-6768-4153-a2f8-bb9c5c941654" name="Default" comment="" />
@@ -135,43 +135,53 @@
       <option name="presentableId" value="Default" />
       <updated>1575431005548</updated>
       <workItem from="1575431008110" duration="26000" />
+      <workItem from="1583825859772" duration="131000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26000" />
+    <option name="totallyTimeSpent" value="157000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info id="Image Layers" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" />
-      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="JRebel Console" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="JRebel Executor" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info id="Capture Tool" />
-      <window_info id="Designer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
+      <window_info id="JRebel" side_tool="true" />
+      <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" />
-      <window_info anchor="right" id="Theme Preview" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="masterDetails">
     <states>

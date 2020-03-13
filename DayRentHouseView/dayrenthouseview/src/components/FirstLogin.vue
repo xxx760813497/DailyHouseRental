@@ -45,7 +45,6 @@ export default {
   methods: {
     clickMaster() {
       this.userStatus='master'
-      console.log(this.userStatus)
       this.$axios.post('/user/updateStatus',this.userStatus)
                     .then(response=>{
                       let data=response.data
@@ -56,7 +55,7 @@ export default {
                         this.$router.push('/login')
                       }
                     }).catch(err=>{
-        console.log(err)
+        alter(err)
         this.$router.push('/login')
       })
       
@@ -73,7 +72,7 @@ export default {
                         this.$router.push('/login')
                       }
                     }).catch(err=>{
-        console.log(err)
+        alert(err)
         this.$router.push('/login')
       })
     }

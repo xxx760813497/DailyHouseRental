@@ -302,6 +302,7 @@ export default {
           alert("自动定位失败")
         }
       }).catch(err=>{
+
         console.log(err)
         this.$router.push('/login')
       })

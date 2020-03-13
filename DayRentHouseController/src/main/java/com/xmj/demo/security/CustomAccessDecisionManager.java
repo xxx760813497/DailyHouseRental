@@ -39,6 +39,7 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
                 System.out.println("请求发出的角色："+ga.getAuthority());
                 if (needRole.equals(ga.getAuthority())) {
                     System.out.println("AccessDecisionManager：是有权限的用户，通行");
+                    
                     return;
                 }
             }

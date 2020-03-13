@@ -108,7 +108,7 @@ export default {
         .then(response => {
           let data = response.data
           this.houseListDiv.houseList = data
-          dateSecltPopShow = false
+          this.dateSecltPopShow = false
         })
         .catch(err => {
           console.log(err)
