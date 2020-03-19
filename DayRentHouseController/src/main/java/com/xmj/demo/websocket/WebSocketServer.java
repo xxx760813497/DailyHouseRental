@@ -43,7 +43,6 @@ public class WebSocketServer {
         if (webSocketMap.containsKey(userId)){
             webSocketMap.remove(userId);
             webSocketMap.put(userId,this);
-            subOnlineCount();
         }else {
             webSocketMap.put(userId,this);
             addOnlineCount();
@@ -93,7 +92,7 @@ public class WebSocketServer {
                 map.put("message",message);
                 map.put("date",datestr);
                 //群体发送
-                this.sendMesageToAll(gson.toJson(map));
+                sendMesageToAll(gson.toJson(map));
             }catch (Exception e){
                 e.printStackTrace();
             }

@@ -33,6 +33,7 @@
 export default {
   data() {
     return {
+      userId:-1,
       websock: null,
       message:"",
       messages:[]
@@ -41,12 +42,7 @@ export default {
 
   methods:{
       initWebSocket(){ //初始化weosocket
-        const wsuri = "ws://127.0.0.1:8080/websocket/1";
-        this.websock = new WebSocket(wsuri);
-        this.websock.onmessage = this.websocketonmessage;
-        this.websock.onopen = this.websocketonopen;
-        this.websock.onerror = this.websocketonerror;
-        this.websock.onclose = this.websocketclose;
+        
       },
       websocketonopen(){ //连接建立之后执行send方法发送数据
 
@@ -65,10 +61,32 @@ export default {
       websocketclose(e){  //关闭
         console.log('断开连接',e);
       },
+
+      getCurrentUserId(){
+        this.$axios.get('/user/getCurrentUserId')
+                    .then(response=>{
+                      let data=response.data
+                      this.userId=data
+
+
+
+                      const wsuri = "ws://127.0.0.1:8080/websocket/"+this.userId;
+                      this.websock = new WebSocket(wsuri);
+                      this.websock.onmessage = this.websocketonmessage;
+                      this.websock.onopen = this.websocketonopen;
+                      this.websock.onerror = this.websocketonerror;
+                      this.websock.onclose = this.websocketclose;
+                    })
+                    .catch(err=>{
+                      alert(err)
+                      this.$router.push('/login')
+                    })
+      }
   },
 
   created() {
-      this.initWebSocket();
+    this.getCurrentUserId();
+    this.initWebSocket();
   },
   destroyed() {
       this.websock.onclose()

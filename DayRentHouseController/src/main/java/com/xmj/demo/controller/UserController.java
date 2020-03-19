@@ -7,6 +7,7 @@ import com.xmj.demo.service.CommentaryService;
 import com.xmj.demo.service.ConsumerService;
 import com.xmj.demo.service.MasterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,5 +76,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getCurrentUserId")
+    public Integer getCurrentUser(HttpSession session){
+        if (session.getAttribute("user")!=null){
+            User user= (User) session.getAttribute("user");
+            return user.getId();
+        }
+        else {
+            throw new AccessDeniedException("没有权限访问!");
+        }
+    }
 
 }

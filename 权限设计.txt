@@ -12,7 +12,8 @@
 3.租客、屋主独有
 @PostMapping("/user/updatePassword")		修改身份
 @PostMapping("/user/updateStatus") 		修改自身的帐号密码
-@GetMapping("/user/getUserState/{id}")	获取用户身份信息
+@GetMapping("/user/getUserState/{id}")		获取用户身份信息
+@GetMapping("/user/getCurrentUser")		获取当前用户ID
 
 4.租客独有
 @PostMapping("/consumer/commentaryImg")		上传评论图片
